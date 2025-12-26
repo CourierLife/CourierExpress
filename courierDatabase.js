@@ -328,7 +328,7 @@ class Package {
 const PACKAGE_TYPES = [
     { w: 3, h: 3, count: 1 },
    // { w: 3, h: 2, count: 2 },
-    { w: 2, h: 2, count: 3 },
+   // { w: 2, h: 2, count: 3 },
    // { w: 2, h: 1, count: 4 },
    // { w: 1, h: 1, count: 6 },
 ];
@@ -471,6 +471,47 @@ console.log(
     mapData.flat().filter(t => t.type === 1 && t.street && t.numbers)
 );
 
+// Ora iniziale del timer (ore e minuti)
+let gameHours = 9;
+let gameMinutes = 0;
+let timerInterval = null;
+
+// Funzione per aggiornare il timer
+function updateTimer() {
+    gameMinutes++;
+
+    if (gameMinutes >= 60) {
+        gameMinutes = 0;
+        gameHours++;
+    }
+
+    const displayHours = String(gameHours).padStart(2, "0");
+    const displayMinutes = String(gameMinutes).padStart(2, "0");
+    document.getElementById("timer").innerText = `${displayHours}:${displayMinutes}`;
+
+    // Fine turno
+    if ((gameHours === 18 && gameMinutes === 30) || packages.length === 0) {
+        clearInterval(timerInterval);
+        console.log("Timer fermo!");
+    }
+}
+
+// Parte quando premi il pulsante "Partenza"
+document.getElementById("completeButton").addEventListener("click", () => {
+    if (!timerInterval) { // evita di avviare più intervalli
+        timerInterval = setInterval(updateTimer, 1000); // 1 secondo reale = 1 minuto di gioco
+    }
+});
+
+// Interrompe automaticamente quando consegni l'ultimo pacco
+function onPackageDelivered(deliveredIndex) {
+    packages.splice(deliveredIndex, 1);
+
+    if (packages.length === 0 && timerInterval) {
+        clearInterval(timerInterval);
+        console.log("Ultimo pacco consegnato, timer fermo!");
+    }
+}
 document.getElementById('mapButton').addEventListener('click', () => {
     console.log("Premuto mappa, prima:", mode);
     if (mode === "mappa") {
@@ -487,6 +528,9 @@ document.getElementById('completeButton').addEventListener('click', () => {
     if (allPackagesInVan()) {
         mode = "mappa"; // switch automatico alla modalità mappa
         draw();
+        document.getElementById('startButton').style.display = "none";
+        document.getElementById('moveControls').style.display = "block";
+        document.getElementById('deliveryButtonContainer').style.display = "block";
     } else {
         alert("Ci sono ancora pacchi da caricare nel furgone!");
     }
@@ -514,4 +558,13 @@ document.getElementById('driveButton').addEventListener('click', () => {
     document.getElementById('moveControls').style.display = "block";
     document.getElementById('deliveryButton').style.display = "block";
     document.getElementById('deliveryControls').style.display = "none";
+});
+// Mostra la finestra delle regole all'avvio
+window.addEventListener('load', () => {
+    document.getElementById('rulesModal').style.display = "flex";
+});
+
+// Chiudi la finestra e inizia il gioco
+document.getElementById('startGameButton').addEventListener('click', () => {
+    document.getElementById('rulesModal').style.display = "none";
 });

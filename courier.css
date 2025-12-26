@@ -25,7 +25,7 @@ body {
 ====================== */
 #hud {
     width: 100%;
-    padding: 10px 14px;
+    padding: 2px 6px;
     background: #1e88e5;
     color: #fff;
     display: flex;
@@ -36,22 +36,10 @@ body {
 }
 
     #hud span {
-        margin-right: 12px;
+        min-width: 100px; /* garantisce spazio fisso per timer o step */
+        text-align: left;
+        display: inline-block;
     }
-
-    #hud button {
-        background: #fff;
-        color: #1e88e5;
-        border: none;
-        padding: 6px 10px;
-        border-radius: 6px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-        #hud button:hover {
-            background: #e3f2fd;
-        }
 
 /* ======================
    INFO STRADA
@@ -74,12 +62,12 @@ body {
    AREA GIOCO
 ===================== */
 #gameContainer {
-    flex: 1;
+    flex: 0 0 auto; /* non crescere, altezza naturale del canvas */
     width: 100%;
     display: flex;
-    justify-content: center; /* mantiene orizzontale centrato */
-    align-items: flex-start; /* in alto, subito sotto le info */
-    margin-top: 0; /* niente margine extra */
+    justify-content: center;
+    align-items: flex-start; /* canvas in alto */
+    margin: 0; /* niente margine */
 }
 
 canvas {
@@ -87,12 +75,14 @@ canvas {
     border-radius: 18px;
     border: 3px solid #1565c0;
     box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    display: block;
 }
 
 /* ======================
    CONTROLLI
 ====================== */
 #controls {
+    margin: 0;
     width: 100%;
     background: #fff;
     border-top: 2px solid #ccc;
@@ -255,4 +245,90 @@ canvas {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+}
+
+/* ======================
+   MODALE REGOLE INIZIALI
+====================== */
+#rulesModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#rulesContent {
+    background: #ffffff;
+    padding: 20px;
+    max-width: 600px;
+    width: 90%;
+    height: 80vh; /* 80% altezza viewport */
+    overflow-y: auto; /* scroll interno */
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    font-size: 0.95rem;
+}
+
+    #rulesContent h2 {
+        text-align: center;
+        color: #1565c0;
+        margin-bottom: 10px;
+    }
+
+    #rulesContent h3 {
+        margin-top: 15px;
+        color: #1e88e5;
+    }
+
+    #rulesContent ul,
+    #rulesContent ol {
+        margin-left: 20px;
+    }
+
+    #rulesContent button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 10px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        background: #4caf50;
+        color: #fff;
+        cursor: pointer;
+    }
+
+        #rulesContent button:hover {
+            background: #43a047;
+        }
+
+/* Pulsanti iniziali: Mappa & Partenza */
+#startButton button {
+    background: #ff9800;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    width: 120px;
+    height: 60px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+    /* Hover */
+    #startButton button:hover {
+        background: #fb8c00;
+    }
+
+/* Layout affiancato */
+#startButton {
+    display: flex;
+    gap: 15px;
 }

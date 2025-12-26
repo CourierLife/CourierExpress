@@ -496,12 +496,6 @@ function openDeliveryModal(currentStreet, civicsOnTile) {
 
         packages.splice(index, 1);
 
-        alert(
-            `✅ Pacco consegnato!\n` +
-            `${selectedRecipient}\n` +
-            `${currentStreet}, civico ${selectedCivic.number}`
-        );
-
         modal.style.display = "none";
         draw();
     };

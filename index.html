@@ -8,10 +8,8 @@
 </head>
 <body>
     <div id="hud">
-        <span>Tempo: <span id="timer">0</span>s</span>
+        <span>Tempo: <span id="timer">0</span></span>
         <span>Step: <span id="steps">0</span></span>
-        <button id="mapButton">Mappa</button>
-        <button id="completeButton">Partenza</button>
     </div>
     <div id="streetInfoContainer">
 
@@ -32,7 +30,11 @@
     </div>
 
     <div id="controls">
-        <div id="moveControls">
+        <div id="startButton" style="display:block">
+            <button id="mapButton">Mappa</button>
+            <button id="completeButton">Partenza</button>
+        </div>
+        <div id="moveControls" style="display:none">
             <!-- Prima riga: acceleratore e freno -->
             <div class="control-row">
                 <button id="down"><img src="img/brake.png" alt="Brake" /></button>
@@ -47,23 +49,69 @@
         </div>
 
         <!-- Pulsante consegna a destra -->
-        <div id="deliveryButtonContainer">
+        <div id="deliveryButtonContainer" style="display:none">
             <button id="deliveryButton">Consegna!</button>
         </div>
-    <!-- Nuovi pulsanti per la modalità consegna -->
-    <div id="deliveryControls" style="display:none;">
-        <button id="driveButton">Guida</button>
-        <button id="deliverButton">Consegna</button>
-    </div>
+        <!-- Nuovi pulsanti per la modalità consegna -->
+        <div id="deliveryControls" style="display:none;">
+            <button id="driveButton">Guida</button>
+            <button id="deliverButton">Consegna</button>
+        </div>
+
+        <div id="deliveryModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index:1000;">
+            <div id="deliveryContent" style="background:#fff; margin:50px auto; padding:20px; width:80%; max-width:600px; border-radius:10px;">
+                <h2>Seleziona il civico</h2>
+                <div id="deliveryColumns" style="display:flex; gap:20px;"></div>
+                <div id="civicRecipients" style="margin-top:20px;"></div>
+                <button id="confirmDelivery" style="margin-top:20px; display:none;">Consegna</button>
+                <button id="closeDeliveryModal" style="margin-top:20px;">Chiudi</button>
+            </div>
+        </div>
     </div>
 
-    <div id="deliveryModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index:1000;">
-        <div id="deliveryContent" style="background:#fff; margin:50px auto; padding:20px; width:80%; max-width:600px; border-radius:10px;">
-            <h2>Seleziona il civico</h2>
-            <div id="deliveryColumns" style="display:flex; gap:20px;"></div>
-            <div id="civicRecipients" style="margin-top:20px;"></div>
-            <button id="confirmDelivery" style="margin-top:20px; display:none;">Consegna</button>
-            <button id="closeDeliveryModal" style="margin-top:20px;">Chiudi</button>
+    <div id="rulesModal">
+        <div id="rulesContent">
+            <h2>Benvenuto in Courier Express</h2>
+
+            <p>
+                In questo gioco il tuo obiettivo è effettuare tutte le consegne nel modo corretto.
+            </p>
+
+            <h3>📦 Carico pacchi</h3>
+            <p>
+                All’inizio dovrai <strong>caricare i pacchi sul furgone</strong> trascinandoli
+                nell’area <strong>arancione</strong>.
+            </p>
+            <p>
+                Se tieni premuto su un pacco puoi vedere i dettagli:
+                <strong>via, civico e cognome</strong> del destinatario.
+            </p>
+
+            <h3>🚚 Guida del furgone</h3>
+            <ul>
+                <li><strong>Gas</strong>: avvia il furgone che procede automaticamente in avanti.</li>
+                <li><strong>Brake</strong>: ferma il furgone ed effettua un piccolo movimento di retromarcia.</li>
+                <li><strong>Volante sinistro / destro</strong>: ruota il furgone di 90° nella direzione scelta.</li>
+            </ul>
+
+            <h3>📍 Consegna</h3>
+            <p>
+                Quando sei <strong>fermo nel punto corretto</strong> davanti al civico giusto,
+                premi <strong>Consegna</strong>.
+            </p>
+
+            <ol>
+                <li>Spostare il pacco da consegnare nell’area <strong>verde</strong></li>
+                <li>Premere di nuovo <strong>Consegna</strong></li>
+                <li>Selezionare <strong>civico</strong> e <strong>cognome</strong></li>
+                <li>Confermare la consegna</li>
+            </ol>
+
+            <p>
+                Premi <strong>Guida</strong> per tornare alla mappa e continuare a guidare liberamente.
+            </p>
+
+            <button id="startGameButton">Inizia a giocare</button>
         </div>
     </div>
 
@@ -71,5 +119,6 @@
     <script src="courierDatabase.js"></script>
     <script src="courierPacchi.js"></script>
     <script src="courier.js"></script>
+    <!-- MODALE REGOLE INIZIALI -->
 </body>
 </html>
