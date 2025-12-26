@@ -353,24 +353,6 @@ document.getElementById("right").addEventListener("click", () => {
     rotateVan(90); // ruota 90° orario
 });
 
-let startX, startY;
-canvas.addEventListener('touchstart', e => {
-    const t = e.touches[0];
-    startX = t.clientX;
-    startY = t.clientY;
-});
-canvas.addEventListener('touchend', e => {
-    const t = e.changedTouches[0];
-    const dx = t.clientX - startX;
-    const dy = t.clientY - startY;
-    if (Math.abs(dx) > Math.abs(dy)) {
-        dx > 0 ? moveVan(0, 1) : moveVan(0, -1);
-    } else {
-        dy > 0 ? moveVan(1, 0) : moveVan(-1, 0);
-    }
-});
-
-
 function toggleCivicsDebug() {
     showCivicsDebug = !showCivicsDebug;
     draw();
