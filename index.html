@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courier Express</title>
+    <link rel="stylesheet" href="courier.css">
+</head>
+<body>
+    <div id="hud">
+        <span>Tempo: <span id="timer">0</span>s</span>
+        <span>Step: <span id="steps">0</span></span>
+        <button id="mapButton">Mappa</button>
+        <button id="completeButton">Partenza</button>
+    </div>
+    <div id="streetInfoContainer">
+
+        <div>
+            <strong id="currentStreet">-</strong>
+        </div>
+        <div>
+            <strong>N° civici:</strong> <span id="civic">-</span> |
+            <strong>Prossimi:</strong> <span id="nextCivic">-</span>
+        </div>
+        <div>
+            <strong>Prossimo incrocio:</strong> <span id="nextIntersection">-</span>
+        </div>
+    </div>
+
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="750" height="450"></canvas>
+    </div>
+
+    <div id="controls">
+        <div id="moveControls">
+            <!-- Prima riga: acceleratore e freno -->
+            <div class="control-row">
+                <button id="down"><img src="img/brake.png" alt="Brake" /></button>
+                <button id="up"><img src="img/gas.png" alt="Gas" /></button>
+            </div>
+
+            <!-- Seconda riga: girare -->
+            <div class="control-row">
+                <button id="left"><img src="img/left.png" alt="Left" /></button>
+                <button id="right"><img src="img/right.png" alt="Right" /></button>
+            </div>
+        </div>
+
+        <!-- Pulsante consegna a destra -->
+        <div id="deliveryButtonContainer">
+            <button id="deliveryButton">Consegna!</button>
+        </div>
+    <!-- Nuovi pulsanti per la modalità consegna -->
+    <div id="deliveryControls" style="display:none;">
+        <button id="driveButton">Guida</button>
+        <button id="deliverButton">Consegna</button>
+    </div>
+    </div>
+
+    <div id="deliveryModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index:1000;">
+        <div id="deliveryContent" style="background:#fff; margin:50px auto; padding:20px; width:80%; max-width:600px; border-radius:10px;">
+            <h2>Seleziona il civico</h2>
+            <div id="deliveryColumns" style="display:flex; gap:20px;"></div>
+            <div id="civicRecipients" style="margin-top:20px;"></div>
+            <button id="confirmDelivery" style="margin-top:20px; display:none;">Consegna</button>
+            <button id="closeDeliveryModal" style="margin-top:20px;">Chiudi</button>
+        </div>
+    </div>
+
+    <script src="cognomi.js"></script>
+    <script src="courierDatabase.js"></script>
+    <script src="courierPacchi.js"></script>
+    <script src="courier.js"></script>
+</body>
+</html>

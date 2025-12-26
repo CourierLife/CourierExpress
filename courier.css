@@ -1,0 +1,258 @@
+/* ======================
+   RESET & BASE
+====================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(180deg, #eef3f9, #dfe7f1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ======================
+   HUD SUPERIORE
+====================== */
+#hud {
+    width: 100%;
+    padding: 10px 14px;
+    background: #1e88e5;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+    #hud span {
+        margin-right: 12px;
+    }
+
+    #hud button {
+        background: #fff;
+        color: #1e88e5;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        #hud button:hover {
+            background: #e3f2fd;
+        }
+
+/* ======================
+   INFO STRADA
+====================== */
+#streetInfoContainer {
+    width: 100%;
+    background: #ffffff;
+    padding: 2px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    font-size: 0.9rem;
+}
+
+#currentStreet {
+    font-size: 1.1rem;
+    color: #1565c0;
+}
+
+/* ======================
+   AREA GIOCO
+===================== */
+#gameContainer {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* mantiene orizzontale centrato */
+    align-items: flex-start; /* in alto, subito sotto le info */
+    margin-top: 0; /* niente margine extra */
+}
+
+canvas {
+    background: #cce5ff;
+    border-radius: 18px;
+    border: 3px solid #1565c0;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* ======================
+   CONTROLLI
+====================== */
+#controls {
+    width: 100%;
+    background: #fff;
+    border-top: 2px solid #ccc;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* centro verticale pulsante consegna */
+    gap: 20px; /* spazio tra movimenti e consegna */
+}
+
+#moveControls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.control-row {
+    display: flex;
+    gap: 10px;
+}
+
+#moveControls button {
+    padding: 5px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    background: #e3f2fd;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+    #moveControls button img {
+        width: 40px;
+        height: 40px;
+        pointer-events: none;
+    }
+
+#deliveryButtonContainer {
+    display: flex;
+    align-items: center; /* centra verticalmente rispetto alle due righe di sinistra */
+}
+
+#deliveryButton {
+    background: #ff9800;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    width: 120px;
+    height: 60px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+    #deliveryButton:hover {
+        background: #fb8c00;
+    }
+
+#deliveryControls {
+    display: none; /* inizialmente nascosti */
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+    #deliveryControls button {
+        width: 150px; /* larghezza uniforme */
+        height: 50px; /* altezza uniforme */
+        border-radius: 10px;
+        border: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        background: #ff9800;
+        color: #fff;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+
+        #deliveryControls button:hover {
+            background: #fb8c00;
+        }
+
+/* ======================
+   MODALE CONSEGNA
+====================== */
+#deliveryModal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#deliveryContent {
+    background: #ffffff;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+    #deliveryContent h2 {
+        text-align: center;
+        margin-bottom: 15px;
+        color: #1565c0;
+    }
+
+/* ======================
+   CIVICI & CAMPANELLI
+====================== */
+#deliveryColumns button,
+#civicRecipients button {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#deliveryColumns button {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+    #deliveryColumns button:hover {
+        background: #bbdefb;
+    }
+
+#civicRecipients button {
+    background: #f5f5f5;
+    margin-top: 4px;
+}
+
+    #civicRecipients button:hover {
+        background: #e0e0e0;
+    }
+
+/* ======================
+   BOTTONI FINALI
+====================== */
+#confirmDelivery {
+    width: 100%;
+    background: #4caf50;
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+    #confirmDelivery:hover {
+        background: #43a047;
+    }
+
+#closeDeliveryModal {
+    width: 100%;
+    margin-top: 8px;
+    background: #ccc;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
