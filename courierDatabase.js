@@ -327,9 +327,9 @@ class Package {
 
 const PACKAGE_TYPES = [
     { w: 3, h: 3, count: 1 },
-   // { w: 3, h: 2, count: 2 },
+    { w: 3, h: 2, count: 2 },
    // { w: 2, h: 2, count: 3 },
-   // { w: 2, h: 1, count: 4 },
+    { w: 2, h: 1, count: 4 },
    // { w: 1, h: 1, count: 6 },
 ];
 
@@ -568,3 +568,4 @@ window.addEventListener('load', () => {
 document.getElementById('startGameButton').addEventListener('click', () => {
     document.getElementById('rulesModal').style.display = "none";
 });
+
