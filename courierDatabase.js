@@ -144,105 +144,104 @@ function loadStreetCivics() {
         { number: "1", bells: 5 },
     ]);
     addCivicToStreet(1, 7, [
-        { number: "3", bells: 5 },
-        { number: "2", bells: 3 }
+        { number: "2", bells: 3 },
+        { number: "3", bells: 5 }
     ]);
     addCivicToStreet(1, 6, [
-        { number: "5", bells: 5 },
-        { number: "4", bells: 3 }
+        { number: "4", bells: 3 },
+        { number: "5", bells: 5 }
     ]);
     addCivicToStreet(1, 5, [
-        { number: "7", bells: 5 },
-        { number: "6", bells: 3 }
+        { number: "6", bells: 3 },
+        { number: "7", bells: 5 }
     ]);
     addCivicToStreet(1, 4, [
         { number: "9", bells: 5 },
     ]);
     addCivicToStreet(1, 3, [
-        { number: "11", bells: 5 },
         { number: "8", bells: 3 },
         { number: "8/1", bells: 3 },
+        { number: "11", bells: 5 },
     ]);
     addCivicToStreet(1, 2, [
-        { number: "13", bells: 5 },
         { number: "10", bells: 3 },
         { number: "10/1", bells: 3 },
+        { number: "13", bells: 5 },
     ]);
     addCivicToStreet(3, 7, [
+        { number: "2", bells: 3 },
         { number: "1", bells: 3 },
-        { number: "2", bells: 3 }
     ]);
     addCivicToStreet(3, 6, [
-        { number: "3", bells: 3 },
-        { number: "4", bells: 3 }
+        { number: "4", bells: 3 },
+        { number: "3", bells: 3 }
     ]);
     addCivicToStreet(3, 5, [
-        { number: "5", bells: 3 },
-        { number: "6", bells: 3 }
+        { number: "6", bells: 3 },
+        { number: "5", bells: 3 }
     ]);
     addCivicToStreet(5, 7, [
-        { number: "1", bells: 3 },
-        { number: "2", bells: 3 }
+        { number: "2", bells: 3 },
+        { number: "1", bells: 3 }
     ]);
     addCivicToStreet(5, 6, [
         { number: "3", bells: 3 }
     ]);
     addCivicToStreet(5, 5, [
-        { number: "5", bells: 3 },
-        { number: "4", bells: 3 }
+        { number: "4", bells: 3 },
+        { number: "5", bells: 3 }
     ]);
     addCivicToStreet(4, 3, [
-        { number: "1", bells: 3 },
-        { number: "1/1", bells: 3 },
         { number: "2", bells: 3 },
         { number: "2/1", bells: 3 },
+        { number: "1", bells: 3 },
+        { number: "1/1", bells: 3 },
     ]);
     addCivicToStreet(4, 2, [
+        { number: "4", bells: 3 },
+        { number: "4/1", bells: 3 },
         { number: "3", bells: 3 },
         { number: "3/1", bells: 3 },
-        { number: "4", bells: 3},
-        { number: "4/1", bells: 3 },
-
     ]);
     addCivicToStreet(7, 5, [
-        { number: "1", bells: 10 },
         { number: "2", bells: 12 },
+        { number: "1", bells: 10 },
     ]);
     addCivicToStreet(7, 4, [
         { number: "4", bells: 12 },
     ]);
     addCivicToStreet(7, 3, [
+        { number: "6", bells: 12 },
         { number: "3", bells: 3 },
         { number: "3/1", bells: 3 },
-        { number: "6", bells: 12 },
     ]);
     addCivicToStreet(7, 2, [
+        { number: "8", bells: 12 },
         { number: "5", bells: 3 },
         { number: "5/1", bells: 3 },
-        { number: "8", bells: 12 },
     ]);
     addCivicToStreet(9, 7, [
-        { number: "1", bells: 15 },
         { number: "2", bells: 8 },
+        { number: "1", bells: 15 },
     ]);
     addCivicToStreet(9, 6, [
         { number: "4", bells: 8 },
     ]);
     addCivicToStreet(9, 5, [
-        { number: "3", bells: 12 },
         { number: "6", bells: 8 },
+        { number: "3", bells: 12 },
     ]);
     addCivicToStreet(9, 4, [
-        { number: "5", bells: 12 },
         { number: "8", bells: 8 },
+        { number: "5", bells: 12 },
     ]);
     addCivicToStreet(9, 3, [
-        { number: "7", bells: 12 },
         { number: "10", bells: 8 },
+        { number: "7", bells: 12 },
     ]);
     addCivicToStreet(9, 2, [
-        { number: "9", bells: 12 },
         { number: "12", bells: 8 },
+        { number: "9", bells: 12 },
     ]);
     addCivicToStreet(11, 1, [
         { number: "2", bells: 5 },
@@ -285,9 +284,9 @@ function loadStreetCivics() {
         { number: "11/1", bells: 3 },
     ]);
     addCivicToStreet(6, 4, [
-        { number: "1", bells: 10 },
         { number: "2", bells: 3 },
         { number: "2/1", bells: 3 },
+        { number: "1", bells: 10 },
     ]);
     addCivicToStreet(5, 4, [
         { number: "4", bells: 3 },
@@ -301,23 +300,24 @@ function loadStreetCivics() {
         { number: "6/1", bells: 3 },
     ]);
     addCivicToStreet(2, 4, [
-        { number: "5", bells: 3 },
         { number: "8", bells: 3 },
         { number: "8/1", bells: 3 },
+        { number: "5", bells: 3 },
+
     ]);
     addCivicToStreet(8, 6, [
-        { number: "1", bells: 6 },
         { number: "2", bells: 12 },
+        { number: "1", bells: 6 },
     ]);
     addCivicToStreet(7, 6, [
         { number: "3", bells: 6 },
     ]);
 
     addCivicToStreet(22, 8, [
-        { number: "2", bells: 15 },
+        { number: "2", bells: 9 },
     ]);
     addCivicToStreet(20, 8, [
-        { number: "4", bells: 15 },
+        { number: "4", bells: 20 },
     ]);
     addCivicToStreet(18, 8, [
         { number: "6", bells: 20 },
@@ -326,7 +326,7 @@ function loadStreetCivics() {
         { number: "8", bells: 20 },
     ]);
     addCivicToStreet(15, 8, [
-        { number: "10", bells: 10 },
+        { number: "10", bells: 8 },
     ]);
     addCivicToStreet(13, 8, [
         { number: "12", bells: 10 },
@@ -387,6 +387,419 @@ function loadStreetCivics() {
     addCivicToStreet(2, 9, [
         { number: "23", bells: 6 },
     ]);
+    addCivicToStreet(1, 9, [
+        { number: "2", bells: 5 },
+    ]);
+    addCivicToStreet(1, 10, [
+        { number: "4", bells: 5 },
+        { number: "1", bells: 6 },
+    ]);
+    addCivicToStreet(1, 11, [
+        { number: "6", bells: 5 },
+        { number: "3", bells: 6 },
+    ]);
+    addCivicToStreet(1, 12, [
+        { number: "8", bells: 5 },
+        { number: "5", bells: 6 },
+    ]);
+    addCivicToStreet(3, 11, [
+        { number: "2", bells: 6 },
+    ]);
+    addCivicToStreet(3, 12, [
+        { number: "4", bells: 6 },
+        { number: "1", bells: 2 },
+    ]);
+    addCivicToStreet(9, 11, [
+        { number: "1", bells: 6 },
+    ]);
+    addCivicToStreet(9, 12, [
+        { number: "2", bells: 2 },
+        { number: "3", bells: 6 },
+    ]);
+    addCivicToStreet(8, 11, [
+        { number: "2", bells: 4 },
+        { number: "2/1", bells: 4 },
+        { number: "1", bells: 2 },
+        { number: "1/1", bells: 2 },
+    ]);
+    addCivicToStreet(7, 11, [
+        { number: "3", bells: 2 },
+        { number: "3/1", bells: 2 },
+    ]);
+    addCivicToStreet(6, 11, [
+        { number: "5", bells: 2 },
+        { number: "5/1", bells: 2 },
+    ]);
+    addCivicToStreet(5, 11, [
+        { number: "7", bells: 2 },
+        { number: "7/1", bells: 2 },
+    ]);
+    addCivicToStreet(4, 11, [
+        { number: "4", bells: 4 },
+        { number: "4/1", bells: 4 },
+        { number: "9", bells: 2 },
+        { number: "9/1", bells: 2 },
+    ]);
+    addCivicToStreet(11, 13, [
+        { number: "1", bells: 5 },
+    ]);
+    addCivicToStreet(10, 13, [
+        { number: "2", bells: 6 },
+        { number: "3", bells: 5 },
+    ]);
+    addCivicToStreet(9, 13, [
+        { number: "5", bells: 5 },
+    ]);
+    addCivicToStreet(8, 13, [
+        { number: "4", bells: 2 },
+        { number: "4/1", bells: 2 },
+        { number: "7", bells: 5 },
+    ]);
+    addCivicToStreet(7, 13, [
+        { number: "6", bells: 2 },
+        { number: "6/1", bells: 2 },
+        { number: "9", bells: 5 },
+    ]);
+    addCivicToStreet(6, 13, [
+        { number: "8", bells: 2 },
+        { number: "8/1", bells: 2 },
+        { number: "11", bells: 5 },
+    ]);
+    addCivicToStreet(5, 13, [
+        { number: "10", bells: 2 },
+        { number: "10/1", bells: 2 },
+        { number: "13", bells: 5 },
+    ]);
+    addCivicToStreet(4, 13, [
+        { number: "12", bells: 2 },
+        { number: "12/1", bells: 2 },
+        { number: "15", bells: 5 },
+    ]);
+    addCivicToStreet(3, 13, [
+        { number: "17", bells: 5 },
+    ]);
+    addCivicToStreet(2, 13, [
+        { number: "14", bells: 6 },
+        { number: "19", bells: 5 },
+    ]);
+    addCivicToStreet(11, 10, [
+        { number: "2", bells: 6 },
+        { number: "1", bells: 12 },
+    ]);
+    addCivicToStreet(11, 11, [
+        { number: "4", bells: 6 },
+    ]);
+    addCivicToStreet(11, 12, [
+        { number: "6", bells: 6 },
+        { number: "3", bells: 8 },
+    ]);
+    addCivicToStreet(16, 10, [
+        { number: "2", bells: 12 },
+        { number: "1", bells: 10 },
+    ]);
+    addCivicToStreet(16, 11, [
+        { number: "3", bells: 10 },
+    ]);
+    addCivicToStreet(12, 11, [
+        { number: "2", bells: 12 },
+        { number: "1", bells: 8 },
+    ]);
+    addCivicToStreet(13, 11, [
+        { number: "4", bells: 12 },
+        { number: "3", bells: 8 },
+    ]);
+    addCivicToStreet(14, 11, [
+        { number: "6", bells: 12 },
+        { number: "5", bells: 8 },
+    ]);
+    addCivicToStreet(15, 11, [
+        { number: "8", bells: 12 },
+    ]);
+    addCivicToStreet(12, 13, [
+        { number: "2", bells: 5 },
+        { number: "1", bells: 8 },
+    ]);
+    addCivicToStreet(13, 13, [
+        { number: "4", bells: 5 },
+        { number: "3", bells: 8 },
+    ]);
+    addCivicToStreet(14, 13, [
+        { number: "6", bells: 5 },
+        { number: "5", bells: 8 },
+    ]);
+    addCivicToStreet(15, 13, [
+        { number: "8", bells: 5 },
+    ]);
+    addCivicToStreet(16, 13, [
+        { number: "10", bells: 5 },
+    ]);
+    addCivicToStreet(17, 13, [
+        { number: "12", bells: 5 },
+        { number: "7", bells: 10 },
+    ]);
+    addCivicToStreet(18, 13, [
+        { number: "14", bells: 5 },
+    ]);
+    addCivicToStreet(18, 10, [
+        { number: "2", bells: 5 },
+        { number: "1", bells: 12 },
+    ]);
+    addCivicToStreet(18, 11, [
+        { number: "4", bells: 5 },
+        { number: "3", bells: 12 },
+    ]);
+    addCivicToStreet(18, 12, [
+        { number: "6", bells: 5 },
+        { number: "5", bells: 12 },
+    ]);
+    addCivicToStreet(20, 10, [
+        { number: "2", bells: 12 },
+        { number: "1", bells: 7 },
+    ]);
+    addCivicToStreet(20, 11, [
+        { number: "4", bells: 12 },
+    ]);
+    addCivicToStreet(20, 12, [
+        { number: "6", bells: 12 },
+        { number: "3", bells: 7 },
+    ]);
+    addCivicToStreet(23, 9, [
+        { number: "1", bells: 5 },
+    ]);
+    addCivicToStreet(23, 10, [
+        { number: "2", bells: 7 },
+        { number: "3", bells: 5 },
+    ]);
+    addCivicToStreet(23, 11, [
+        { number: "4", bells: 7 },
+        { number: "5", bells: 5 },
+    ]);
+    addCivicToStreet(23, 12, [
+        { number: "6", bells: 7 },
+        { number: "7", bells: 5 },
+    ]);
+    addCivicToStreet(20, 13, [
+        { number: "2", bells: 5 },
+    ]);
+    addCivicToStreet(21, 13, [
+        { number: "4", bells: 5 },
+        { number: "1", bells: 7 },
+    ]);
+    addCivicToStreet(22, 13, [
+        { number: "6", bells: 5 },
+        { number: "3", bells: 7 },
+    ]);
+    addCivicToStreet(12, 1, [
+        { number: "1", bells: 5 },
+    ]);
+    addCivicToStreet(13, 1, [
+        { number: "2", bells: 10 },
+        { number: "3", bells: 5 },
+    ]);
+    addCivicToStreet(14, 1, [
+        { number: "5", bells: 5 },
+    ]);
+    addCivicToStreet(15, 1, [
+        { number: "4", bells: 8 },
+        { number: "7", bells: 5 },
+    ]);
+    addCivicToStreet(16, 1, [
+        { number: "9", bells: 5 },
+    ]);
+    addCivicToStreet(17, 1, [
+        { number: "6", bells: 20 },
+        { number: "11", bells: 5 },
+    ]);
+    addCivicToStreet(18, 1, [
+        { number: "8", bells: 20 },
+        { number: "13", bells: 5 },
+    ]);
+    addCivicToStreet(19, 1, [
+        { number: "15", bells: 5 },
+    ]);
+    addCivicToStreet(20, 1, [
+        { number: "10", bells: 20 },
+        { number: "12", bells: 20 },
+        { number: "17", bells: 5 },
+    ]);
+    addCivicToStreet(21, 1, [
+        { number: "19", bells: 5 },
+    ]);
+    addCivicToStreet(22, 1, [
+        { number: "14", bells: 9 },
+        { number: "21", bells: 5 },
+    ]);
+    addCivicToStreet(13, 3, [
+        { number: "2", bells: 10 },
+    ]);
+    addCivicToStreet(15, 3, [
+        { number: "4", bells: 8 },
+    ]);
+    addCivicToStreet(17, 3, [
+        { number: "6", bells: 20 },
+    ]);
+    addCivicToStreet(18, 3, [
+        { number: "8", bells: 20 },
+    ]);
+    addCivicToStreet(20, 3, [
+        { number: "10", bells: 20 },
+        { number: "12", bells: 20 },
+    ]);
+    addCivicToStreet(22, 3, [
+        { number: "14", bells: 9 },
+    ]);
+    addCivicToStreet(13, 4, [
+        { number: "1", bells: 10 },
+    ]);
+    addCivicToStreet(15, 4, [
+        { number: "3", bells: 8 },
+    ]);
+    addCivicToStreet(17, 4, [
+        { number: "5", bells: 20 },
+    ]);
+    addCivicToStreet(18, 4, [
+        { number: "7", bells: 20 },
+    ]);
+    addCivicToStreet(20, 4, [
+        { number: "9", bells: 20 },
+        { number: "11", bells: 20 },
+    ]);
+    addCivicToStreet(22, 4, [
+        { number: "13", bells: 9 },
+    ]);
+    addCivicToStreet(13, 6, [
+        { number: "2", bells: 10 },
+        { number: "1", bells: 10},
+    ]);
+    addCivicToStreet(15, 6, [
+        { number: "4", bells: 8 },
+        { number: "3", bells: 8 },
+    ]);
+    addCivicToStreet(17, 6, [
+        { number: "6", bells: 20 },
+        { number: "5", bells: 20 },
+    ]);
+    addCivicToStreet(18, 6, [
+        { number: "8", bells: 20 },
+        { number: "7", bells: 20 },
+    ]);
+    addCivicToStreet(20, 6, [
+        { number: "10", bells: 20 },
+        { number: "12", bells: 20 },
+        { number: "9", bells: 20 },
+        { number: "11", bells: 20 },
+    ]);
+    addCivicToStreet(22, 6, [
+        { number: "14", bells: 9 },
+        { number: "13", bells: 9 },
+    ]);
+    addCivicToStreet(11, 7, [
+        { number: "1", bells: 8 },
+    ]);
+    addCivicToStreet(11, 6, [
+        { number: "3", bells: 8 },
+    ]);
+    addCivicToStreet(11, 5, [
+        { number: "5", bells: 8 },
+    ]);
+    addCivicToStreet(11, 4, [
+        { number: "7", bells: 8 },
+    ]);
+    addCivicToStreet(11, 3, [
+        { number: "9", bells: 8 },
+    ]);
+    addCivicToStreet(11, 2, [
+        { number: "11", bells: 8 },
+    ]);
+    addCivicToStreet(12, 7, [
+        { number: "2", bells: 10 },
+    ]);
+    addCivicToStreet(12, 5, [
+        { number: "4", bells: 10 },
+    ]);
+    addCivicToStreet(12, 2, [
+        { number: "6", bells: 10 },
+    ]);
+    addCivicToStreet(14, 7, [
+        { number: "2", bells: 8 },
+        { number: "1", bells: 10 },
+    ]);
+    addCivicToStreet(14, 5, [
+        { number: "4", bells: 8 },
+        { number: "3", bells: 10 },
+    ]);
+    addCivicToStreet(14, 2, [
+        { number: "6", bells: 8 },
+        { number: "5", bells: 10 },
+    ]);
+    addCivicToStreet(16, 7, [
+        { number: "2", bells: 20 },
+        { number: "1", bells: 8 },
+    ]);
+    addCivicToStreet(16, 5, [
+        { number: "4", bells: 20 },
+        { number: "3", bells: 8 },
+    ]);
+    addCivicToStreet(16, 2, [
+        { number: "6", bells: 20 },
+        { number: "5", bells: 8 },
+    ]);
+    addCivicToStreet(19, 7, [
+        { number: "2", bells: 20 },
+        { number: "4", bells: 20 },
+        { number: "1", bells: 20 },
+    ]);
+    addCivicToStreet(19, 5, [
+        { number: "6", bells: 20 },
+        { number: "8", bells: 20 },
+        { number: "3", bells: 20 },
+    ]);
+    addCivicToStreet(19, 2, [
+        { number: "10", bells: 20 },
+        { number: "12", bells: 20 },
+        { number: "5", bells: 20 },
+    ]);
+    addCivicToStreet(21, 7, [
+        { number: "2", bells: 9 },
+        { number: "1", bells: 20 },
+        { number: "3", bells: 20 },
+    ]);
+    addCivicToStreet(21, 5, [
+        { number: "4", bells: 9 },
+        { number: "5", bells: 20 },
+        { number: "7", bells: 20 },
+    ]);
+    addCivicToStreet(21, 2, [
+        { number: "6", bells: 9 },
+        { number: "9", bells: 20 },
+        { number: "11", bells: 20 },
+    ]);
+    addCivicToStreet(23, 8, [
+        { number: "2", bells: 5 },
+    ]);
+    addCivicToStreet(23, 7, [
+        { number: "4", bells: 5 },
+        { number: "1", bells: 9 },
+    ]);
+    addCivicToStreet(23, 6, [
+        { number: "6", bells: 5 },
+    ]);
+    addCivicToStreet(23, 5, [
+        { number: "8", bells: 5 },
+        { number: "3", bells: 9 },
+    ]);
+    addCivicToStreet(23, 4, [
+        { number: "10", bells: 5 },
+    ]);
+    addCivicToStreet(23, 3, [
+        { number: "12", bells: 5 },
+    ]);
+    addCivicToStreet(23, 2, [
+        { number: "14", bells: 5 },
+        { number: "5", bells: 9 },
+    ]);
+
+
 
 }
 
@@ -473,11 +886,11 @@ class Package {
 }
 
 const PACKAGE_TYPES = [
-    { w: 3, h: 3, count: 1 },
-    { w: 3, h: 2, count: 2 },
-   // { w: 2, h: 2, count: 3 },
-    { w: 2, h: 1, count: 4 },
-   // { w: 1, h: 1, count: 6 },
+    { w: 3, h: 3, count: 1, size: "Grande"},
+    { w: 3, h: 2, count: 2, size: "Grande"},
+    { w: 2, h: 2, count: 3, size: ""},
+    { w: 2, h: 1, count: 4, size: ""},
+    { w: 1, h: 1, count: 6, size: "Piccolo"},
 ];
 
 const ROAD_TYPES = [0, 3, 4, 5, 6];
@@ -597,6 +1010,7 @@ function generatePackagesFromBellList(bellList) {
             );
 
             // 🎨 colore assegnato UNA VOLTA
+            pkg.size = type.size;
             pkg.color = randomSoftColor();
 
             packages.push(pkg);
@@ -642,6 +1056,102 @@ function updateTimer() {
         console.log("Timer fermo!");
     }
 }
+
+let deliveryOrder = []; // id dei pacchi nell'ordine scelto
+
+function openDeliveryListModal() {
+    const modal = document.getElementById("deliveryListModal");
+    const list = document.getElementById("deliveryListContent");
+
+    list.innerHTML = ""; // reset
+
+    // Controlla se qualche pacco è già nell'ordine (deliveryOrder)
+    const anyNumbered = deliveryOrder.length > 0;
+
+    let displayPackages = [...packages];
+
+    if (anyNumbered) {
+        // Ordina in base all'ordine attuale (i non numerati in fondo)
+        displayPackages.sort((a, b) => {
+            const indexA = deliveryOrder.indexOf(a.id);
+            const indexB = deliveryOrder.indexOf(b.id);
+            if (indexA === -1) return 1;
+            if (indexB === -1) return -1;
+            return indexA - indexB;
+        });
+    } else {
+        // Shuffle random
+        displayPackages.sort(() => Math.random() - 0.5);
+    }
+
+    // Crea gli elementi della lista
+    displayPackages.forEach(pkg => {
+        const li = document.createElement("li");
+        li.dataset.pkgId = pkg.id; // id pacco per tracking
+        li.innerHTML = `
+            <span>${pkg.street} ${pkg.civic} — ${pkg.size}</span>
+            <div class="delivery-badge"></div>
+        `;
+        list.appendChild(li);
+    });
+
+    updateBadges(); // Aggiorna numeri e colori dei badge
+    modal.style.display = "flex";
+}
+
+function updateBadges() {
+    const listItems = document.querySelectorAll("#deliveryListContent li");
+    listItems.forEach(li => {
+        const badge = li.querySelector(".delivery-badge");
+        const pkgId = parseInt(li.dataset.pkgId);
+        const index = deliveryOrder.indexOf(pkgId);
+        if (index !== -1) {
+            badge.textContent = index + 1;
+            badge.classList.add("active");
+        } else {
+            badge.textContent = "";
+            badge.classList.remove("active");
+        }
+    });
+}
+
+document.getElementById("deliveryListContent").addEventListener("click", (e) => {
+    if (!e.target.classList.contains("delivery-badge")) return;
+
+    const li = e.target.closest("li");
+    const pkgId = parseInt(li.dataset.pkgId);
+    const idx = deliveryOrder.indexOf(pkgId);
+
+    if (idx === -1) {
+        // aggiunge alla fine
+        deliveryOrder.push(pkgId);
+    } else {
+        // rimuove e scala indietro
+        deliveryOrder.splice(idx, 1);
+    }
+
+    updateBadges();
+});
+
+// Pulsante ordina
+document.getElementById("sortDeliveryList").addEventListener("click", () => {
+    const list = document.getElementById("deliveryListContent");
+    const items = Array.from(list.children);
+
+    items.sort((a, b) => {
+        const idA = parseInt(a.dataset.pkgId);
+        const idB = parseInt(b.dataset.pkgId);
+
+        const indexA = deliveryOrder.indexOf(idA);
+        const indexB = deliveryOrder.indexOf(idB);
+
+        if (indexA === -1) return 1; // non numerati in fondo
+        if (indexB === -1) return -1;
+        return indexA - indexB;
+    });
+
+    items.forEach(i => list.appendChild(i));
+});
 
 // Interrompe automaticamente quando consegni l'ultimo pacco
 function onPackageDelivered(deliveredIndex) {
@@ -715,4 +1225,12 @@ document.getElementById('startGameButton').addEventListener('click', () => {
         timerInterval = setInterval(updateTimer, 1000); // 1 secondo reale = 1 minuto di gioco
     }
 
+});
+
+document.getElementById("deliveryList").addEventListener("click", () => {
+    openDeliveryListModal();
+});
+
+document.getElementById("closeDeliveryListModal").addEventListener("click", () => {
+    document.getElementById("deliveryListModal").style.display = "none";
 });

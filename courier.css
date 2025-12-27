@@ -171,6 +171,7 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-y: auto;
 }
 
 #deliveryContent {
@@ -180,12 +181,126 @@ canvas {
     max-width: 600px;
     border-radius: 14px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    overflow-y: auto;
 }
 
     #deliveryContent h2 {
         text-align: center;
         margin-bottom: 15px;
         color: #1565c0;
+    }
+/* ======================
+   MODALE LISTA CONSEGNE
+====================== */
+#deliveryListModal {
+    display: flex; /* centra il contenuto */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6); /* leggermente più scuro */
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px; /* margine interno se lo schermo è piccolo */
+}
+
+    #deliveryListModal .modal-content {
+        background: #ffffff;
+        padding: 30px;
+        width: 100%;
+        min-width: 340px; /* leggermente più grande */
+        border-radius: 16px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        overflow-y: auto;
+    }
+
+    #deliveryListModal h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #1565c0;
+        font-size: 1.6rem;
+        font-weight: 700;
+    }
+
+#deliveryListContent {
+    list-style: none;
+    max-height: 500px; /* altezza massima con scroll */
+    overflow-y: auto;
+    padding: 0;
+    margin: 0;
+}
+
+    #deliveryListContent li {
+        background: #e3f2fd;
+        margin-bottom: 6px;
+        padding: 6px 6px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 400;
+        color: #1565c0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+        #deliveryListContent li:last-child {
+            margin-bottom: 0;
+        }
+
+#closeDeliveryListModal {
+    width: 100%;
+    margin-top: 20px;
+    background: #fb3838;
+    color: #fff;
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+#sortDeliveryList {
+    width: 100%;
+    margin-top: 20px;
+    background: #1565c0;
+    color: #fff;
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+.delivery-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #1565c0;
+    color: #1565c0;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 10px;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s;
+}
+
+    .delivery-badge.active {
+        background: #1565c0;
+        color: #fff;
+    }
+
+    #closeDeliveryListModal:hover {
+        background: #0d47a1;
     }
 
 /* ======================
@@ -308,27 +423,28 @@ canvas {
             background: #43a047;
         }
 
-/* Pulsanti iniziali: Mappa & Partenza */
-#startButton button {
-    background: #ff9800;
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    width: 120px;
-    height: 60px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-}
-
-    /* Hover */
-    #startButton button:hover {
-        background: #fb8c00;
-    }
-
-/* Layout affiancato */
+/* Pulsanti iniziali: Mappa, Lista, Partenza */
 #startButton {
     display: flex;
-    gap: 15px;
+    gap: 15px; /* spazio tra i pulsanti */
+    justify-content: center;
+    flex-wrap: nowrap; /* evita che vadano a capo */
 }
+
+    #startButton button {
+        background: #ff9800;
+        color: #fff;
+        font-size: 14px; /* leggermente più piccolo */
+        font-weight: bold;
+        width: 100px; /* più stretti */
+        height: 50px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        transition: background 0.2s;
+    }
+
+        #startButton button:hover {
+            background: #fb8c00;
+        }

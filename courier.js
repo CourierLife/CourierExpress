@@ -1,5 +1,5 @@
 // Furgone iniziale
-let van = { row: 1, col: 5 };
+let van = { row: 21, col: 11 };
 van.x = van.col * CELL_SIZE; // posizione reale in pixel
 van.y = van.row * CELL_SIZE;
 van.targetRow = van.row;

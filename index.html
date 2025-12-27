@@ -32,6 +32,7 @@
     <div id="controls">
         <div id="startButton" style="display:block">
             <button id="mapButton">Mappa</button>
+            <button id="deliveryList">Lista consegne</button>
             <button id="completeButton">Partenza</button>
         </div>
         <div id="moveControls" style="display:none">
@@ -67,7 +68,19 @@
                 <button id="closeDeliveryModal" style="margin-top:20px;">Chiudi</button>
             </div>
         </div>
+        <div id="deliveryListModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+            <div class="modal-content" style="background:#fff; margin:50px auto; padding:20px; width:80%; max-width:600px; border-radius:10px;">
+                <h3>Lista consegne</h3>
+                <ul id="deliveryListContent"></ul>
+                <div style="display:flex; justify-content: space-between; margin-top: 15px;">
+                    <button id="closeDeliveryListModal">Chiudi</button>
+                    <button id="sortDeliveryList">Ordina</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 
     <div id="rulesModal">
         <div id="rulesContent">

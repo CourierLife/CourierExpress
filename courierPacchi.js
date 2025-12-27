@@ -19,18 +19,41 @@ function drawVanArea() {
 
 
 function placePackages() {
+    const occupied = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+
     packages.forEach(p => {
         let placed = false;
 
         while (!placed) {
-            // righe sotto il furgone (riga 10 fino a ROWS-1)
+            // righe sotto il furgone (riga FUR_ROWS fino a ROWS-1)
             const r = FUR_ROWS + Math.floor(Math.random() * (ROWS - FUR_ROWS - p.height + 1));
-            // tutte le colonne
             const c = Math.floor(Math.random() * (COLS - p.width + 1));
 
-            p.row = r;
-            p.col = c;
-            placed = true;
+            // Controlla se lo spazio è libero
+            let free = true;
+            for (let rr = 0; rr < p.height; rr++) {
+                for (let cc = 0; cc < p.width; cc++) {
+                    if (occupied[r + rr][c + cc]) {
+                        free = false;
+                        break;
+                    }
+                }
+                if (!free) break;
+            }
+
+            if (free) {
+                // Segna le celle come occupate
+                for (let rr = 0; rr < p.height; rr++) {
+                    for (let cc = 0; cc < p.width; cc++) {
+                        occupied[r + rr][c + cc] = true;
+                    }
+                }
+
+                p.row = r;
+                p.col = c;
+                placed = true;
+            }
+            // se non è libero, il while continua e prova un'altra posizione
         }
     });
 }
