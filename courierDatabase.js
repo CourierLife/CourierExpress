@@ -68,13 +68,13 @@ const rawMap = [
     [2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2],
     [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
     [1, 0, 1, 1, 0, 1, 1, 1, 6, 5, 1, 1, 1, 0, 1],
-    [1, 0, 1, 1, 0, 3, 3, 3, 0, 0, 2, 0, 4, 0, 1],
-    [1, 0, 0, 0, 0, 1, 1, 1, 6, 5, 2, 6, 1, 0, 1],
-    [1, 0, 1, 1, 0, 4, 4, 4, 0, 0, 1, 6, 1, 0, 1],
-    [1, 0, 1, 1, 0, 1, 2, 1, 6, 5, 1, 6, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 1, 6, 0, 4, 0, 1, 0, 1],
-    [1, 0, 1, 1, 1, 1, 0, 1, 6, 5, 1, 5, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 6, 5, 2, 0, 4, 0, 1],
+    [1, 0, 1, 1, 0, 3, 3, 3, 0, 0, 2, 0, 3, 0, 1],
+    [1, 0, 0, 0, 0, 1, 1, 1, 6, 5, 1, 5, 1, 0, 1],
+    [1, 0, 1, 1, 0, 4, 4, 4, 0, 0, 2, 5, 1, 0, 1],
+    [1, 0, 1, 1, 0, 1, 2, 1, 6, 5, 3, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 1, 6, 0, 2, 6, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0, 1, 6, 5, 1, 6, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 6, 5, 2, 0, 3, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 6, 5, 1, 1, 1, 0, 1],
     [1, 0, 4, 0, 0, 4, 0, 4, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 3, 0, 0, 3, 0, 3, 0, 0, 1, 5, 1, 0, 1],
@@ -88,7 +88,7 @@ const rawMap = [
     [1, 6, 1, 6, 5, 1, 5, 1, 6, 5, 0, 0, 0, 0, 1],
     [1, 0, 4, 0, 0, 4, 0, 4, 0, 0, 1, 0, 1, 0, 1],
     [1, 6, 1, 6, 5, 1, 5, 1, 6, 5, 1, 1, 1, 0, 1],
-    [2, 0, 3, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 2],
+    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
     [2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2]
 ];
 
@@ -100,31 +100,32 @@ const streets = [
     { name: "Via Montecarlo", start: [9, 2], end: [9, 7] },
     { name: "Via Hong Kong", start: [2, 4], end: [6, 4] },
     { name: "Via Napoli", start: [12, 1], end: [23, 1] },
-    { name: "Via Roma", start: [1, 1], end: [11, 1] },
+    { name: "Via Caraibi", start: [1, 1], end: [11, 1] },
     { name: "Via Singapore", start: [3, 5], end: [3, 7] },
     { name: "Via Giappone", start: [5, 5], end: [5, 7] },
-    { name: "Via Macao", start: [7, 6], end: [8, 6] },
-    { name: "Via Bologna", start: [1, 13], end: [18, 13] },
-    { name: "Via Staranzano", start: [3, 11], end: [3, 12] },
-    { name: "Via Grado", start: [4, 11], end: [8, 11] },
-    { name: "Via Fossalon", start: [7, 10], end: [7, 10] },
-    { name: "Via Gradisca", start: [9, 11], end: [9, 12] },
-    { name: "Via Lignano", start: [1, 9], end: [1, 12] },
-    { name: "Via San Luigi", start: [11, 10], end: [11, 12] },
-    { name: "Via San Francesco", start: [12, 11], end: [15, 11] },
-    { name: "Via San Giusto", start: [16, 10], end: [16, 11] },
-    { name: "Via San Giacomo", start: [18, 10], end: [18, 12] },
+    { name: "Via Liechtenstein", start: [7, 6], end: [8, 6] },
+    { name: "Via San Francesco", start: [1, 13], end: [11, 13] },
+    { name: "Via San Luigi", start: [3, 11], end: [3, 12] },
+    { name: "Via San Marco", start: [6, 10], end: [6, 11] },
+    { name: "Via San Marco", start: [4, 11], end: [8, 11] },
+    { name: "Via San Giacomo", start: [9, 11], end: [9, 12] },
+    { name: "Via San Giovanni", start: [1, 9], end: [1, 12] },
+    { name: "Via San Giusto", start: [11, 10], end: [11, 12] },
+    { name: "Via Staranzano", start: [12, 11], end: [15, 11] },
+    { name: "Via Fossalon", start: [16, 10], end: [16, 11] },
+    { name: "Via Lignano", start: [18, 10], end: [18, 12] },
+    { name: "Via Grado", start: [12, 13], end: [18, 13] },
     { name: "Via Venezia", start: [13, 6], end: [22, 6] },
     { name: "Via Torino", start: [14, 2], end: [14, 7] },
     { name: "Via Firenze", start: [16, 2], end: [16, 7] },
     { name: "Via Ancona", start: [19, 2], end: [19, 7] },
     { name: "Via Potenza", start: [21, 2], end: [21, 7] },
-    { name: "Via Modena", start: [20, 13], end: [23, 13] },
+    { name: "Via Sgonico", start: [20, 13], end: [23, 13] },
     { name: "Via Trieste", start: [2, 8], end: [23, 9] },
     { name: "Viale Milano", start: [11, 2], end: [12, 7] },
     { name: "Viale Nazionale", start: [13, 3], end: [22, 4] },
     { name: "Via Palermo", start: [23, 1], end: [22, 8] },
-    { name: "Via San Marco", start: [23, 9], end: [23, 13] },
+    { name: "Via Prosecco", start: [23, 9], end: [23, 13] },
 
 ];
 
@@ -166,7 +167,6 @@ function loadStreetCivics() {
         { number: "13", bells: 5 },
         { number: "10", bells: 3 },
         { number: "10/1", bells: 3 },
-
     ]);
     addCivicToStreet(3, 7, [
         { number: "1", bells: 3 },
@@ -185,12 +185,11 @@ function loadStreetCivics() {
         { number: "2", bells: 3 }
     ]);
     addCivicToStreet(5, 6, [
-        { number: "3", bells: 3 },
-        { number: "4", bells: 3 }
+        { number: "3", bells: 3 }
     ]);
     addCivicToStreet(5, 5, [
         { number: "5", bells: 3 },
-        { number: "6", bells: 3 }
+        { number: "4", bells: 3 }
     ]);
     addCivicToStreet(4, 3, [
         { number: "1", bells: 3 },
@@ -228,19 +227,167 @@ function loadStreetCivics() {
     ]);
     addCivicToStreet(9, 6, [
         { number: "4", bells: 8 },
-    ]); addCivicToStreet(9, 5, [
+    ]);
+    addCivicToStreet(9, 5, [
         { number: "3", bells: 12 },
         { number: "6", bells: 8 },
-    ]); addCivicToStreet(9, 4, [
+    ]);
+    addCivicToStreet(9, 4, [
         { number: "5", bells: 12 },
         { number: "8", bells: 8 },
-    ]); addCivicToStreet(9, 3, [
+    ]);
+    addCivicToStreet(9, 3, [
         { number: "7", bells: 12 },
         { number: "10", bells: 8 },
-    ]); addCivicToStreet(9, 2, [
+    ]);
+    addCivicToStreet(9, 2, [
         { number: "9", bells: 12 },
         { number: "12", bells: 8 },
     ]);
+    addCivicToStreet(11, 1, [
+        { number: "2", bells: 5 },
+    ]);
+    addCivicToStreet(10, 1, [
+        { number: "4", bells: 5 },
+        { number: "1", bells: 12 },
+    ]);
+    addCivicToStreet(9, 1, [
+        { number: "6", bells: 5 },
+    ]);
+    addCivicToStreet(8, 1, [
+        { number: "8", bells: 5 },
+        { number: "3", bells: 12 },
+    ]);
+    addCivicToStreet(7, 1, [
+        { number: "10", bells: 5 },
+    ]);
+    addCivicToStreet(6, 1, [
+        { number: "12", bells: 5 },
+        { number: "5", bells: 3 },
+        { number: "5/1", bells: 3 },
+    ]);
+    addCivicToStreet(5, 1, [
+        { number: "14", bells: 5 },
+        { number: "7", bells: 3 },
+        { number: "7/1", bells: 3 },
+    ]);
+    addCivicToStreet(4, 1, [
+        { number: "16", bells: 5 },
+    ]);
+    addCivicToStreet(3, 1, [
+        { number: "18", bells: 5 },
+        { number: "9", bells: 3 },
+        { number: "9/1", bells: 3 },
+    ]);
+    addCivicToStreet(2, 1, [
+        { number: "20", bells: 5 },
+        { number: "11", bells: 3 },
+        { number: "11/1", bells: 3 },
+    ]);
+    addCivicToStreet(6, 4, [
+        { number: "1", bells: 10 },
+        { number: "2", bells: 3 },
+        { number: "2/1", bells: 3 },
+    ]);
+    addCivicToStreet(5, 4, [
+        { number: "4", bells: 3 },
+        { number: "4/1", bells: 3 },
+    ]);
+    addCivicToStreet(4, 4, [
+        { number: "3", bells: 3 },
+    ]);
+    addCivicToStreet(3, 4, [
+        { number: "6", bells: 3 },
+        { number: "6/1", bells: 3 },
+    ]);
+    addCivicToStreet(2, 4, [
+        { number: "5", bells: 3 },
+        { number: "8", bells: 3 },
+        { number: "8/1", bells: 3 },
+    ]);
+    addCivicToStreet(8, 6, [
+        { number: "1", bells: 6 },
+        { number: "2", bells: 12 },
+    ]);
+    addCivicToStreet(7, 6, [
+        { number: "3", bells: 6 },
+    ]);
+
+    addCivicToStreet(22, 8, [
+        { number: "2", bells: 15 },
+    ]);
+    addCivicToStreet(20, 8, [
+        { number: "4", bells: 15 },
+    ]);
+    addCivicToStreet(18, 8, [
+        { number: "6", bells: 20 },
+    ]);
+    addCivicToStreet(17, 8, [
+        { number: "8", bells: 20 },
+    ]);
+    addCivicToStreet(15, 8, [
+        { number: "10", bells: 10 },
+    ]);
+    addCivicToStreet(13, 8, [
+        { number: "12", bells: 10 },
+    ]);
+    addCivicToStreet(10, 8, [
+        { number: "14", bells: 8 },
+    ]);
+    addCivicToStreet(8, 8, [
+        { number: "16", bells: 6 },
+    ]);
+    addCivicToStreet(7, 8, [
+        { number: "18", bells: 6 },
+    ]);
+    addCivicToStreet(6, 8, [
+        { number: "20", bells: 6 },
+    ]);
+    addCivicToStreet(4, 8, [
+        { number: "22", bells: 3 },
+    ]);
+    addCivicToStreet(2, 8, [
+        { number: "24", bells: 3 },
+    ]);
+    addCivicToStreet(22, 9, [
+        { number: "1", bells: 7 },
+    ]);
+    addCivicToStreet(21, 9, [
+        { number: "3", bells: 7 },
+    ]);
+    addCivicToStreet(19, 9, [
+        { number: "5", bells: 12 },
+    ]);
+    addCivicToStreet(17, 9, [
+        { number: "7", bells: 10 },
+    ]);
+    addCivicToStreet(15, 9, [
+        { number: "9", bells: 12 },
+    ]);
+    addCivicToStreet(14, 9, [
+        { number: "11", bells: 12 },
+    ]);
+    addCivicToStreet(13, 9, [
+        { number: "13", bells: 12 },
+    ]);
+    addCivicToStreet(12, 9, [
+        { number: "15", bells: 12 },
+    ]);
+    addCivicToStreet(10, 9, [
+        { number: "17", bells: 6 },
+    ]);
+    addCivicToStreet(8, 9, [
+        { number: "19", bells: 4 },
+        { number: "19/1", bells: 4 },
+    ]);
+    addCivicToStreet(4, 9, [
+        { number: "21", bells: 4 },
+        { number: "21/1", bells: 4 },
+    ]);
+    addCivicToStreet(2, 9, [
+        { number: "23", bells: 6 },
+    ]);
+
 }
 
 const mapData = Array.from({ length: ROWS }, (_, r) =>
@@ -416,7 +563,7 @@ function shuffle(array) {
 
 function randomSoftColor() {
     const hue = Math.floor(Math.random() * 360); // tonalità
-    const saturation = 40 + Math.random() * 20; // 40–60%
+    const saturation = 30 + Math.random() * 40; // 40–60%
     const lightness = 60 + Math.random() * 15;  // 60–75%
 
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
@@ -496,13 +643,6 @@ function updateTimer() {
     }
 }
 
-// Parte quando premi il pulsante "Partenza"
-document.getElementById("completeButton").addEventListener("click", () => {
-    if (!timerInterval) { // evita di avviare più intervalli
-        timerInterval = setInterval(updateTimer, 1000); // 1 secondo reale = 1 minuto di gioco
-    }
-});
-
 // Interrompe automaticamente quando consegni l'ultimo pacco
 function onPackageDelivered(deliveredIndex) {
     packages.splice(deliveredIndex, 1);
@@ -551,13 +691,17 @@ document.getElementById('deliveryButton').addEventListener('click', () => {
 
 // Se vuoi aggiungere la possibilità di tornare indietro (facoltativo)
 document.getElementById('driveButton').addEventListener('click', () => {
-    mode = "mappa"; // o altra modalità che vuoi
-    draw();
+    if (allPackagesInVan()) {
+        mode = "mappa"; // o altra modalità che vuoi
+        draw();
 
-    // Ripristina i pulsanti originali
-    document.getElementById('moveControls').style.display = "block";
-    document.getElementById('deliveryButton').style.display = "block";
-    document.getElementById('deliveryControls').style.display = "none";
+        // Ripristina i pulsanti originali
+        document.getElementById('moveControls').style.display = "block";
+        document.getElementById('deliveryButton').style.display = "block";
+        document.getElementById('deliveryControls').style.display = "none";
+    } else {
+        alert("Stai lasciando dei pacchi a terra!!");
+    }
 });
 // Mostra la finestra delle regole all'avvio
 window.addEventListener('load', () => {
@@ -567,5 +711,8 @@ window.addEventListener('load', () => {
 // Chiudi la finestra e inizia il gioco
 document.getElementById('startGameButton').addEventListener('click', () => {
     document.getElementById('rulesModal').style.display = "none";
-});
+    if (!timerInterval) { // evita di avviare più intervalli
+        timerInterval = setInterval(updateTimer, 1000); // 1 secondo reale = 1 minuto di gioco
+    }
 
+});

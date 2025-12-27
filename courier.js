@@ -17,7 +17,7 @@ vanLeft.src = "img/vanLeft.png";
 const vanRight = new Image();
 vanRight.src = "img/vanRight.png";
 
-let showCivicsDebug = false;
+let DEBUG = false;
 
 // Velocità in pixel al secondo (es. 1 tile ogni 2 secondi)
 const vanPixelsPerSecond = CELL_SIZE;
@@ -312,9 +312,10 @@ function drawMap() {
     );
 
 
-    if (showCivicsDebug) {
-        drawCivicsDebug();
+    if (DEBUG) {
+        drawTileCoordinatesDebug();
     }
+
 }
 
 function isBlockedByOneWay(tileType, dr, dc) {
@@ -354,9 +355,9 @@ document.getElementById("right").addEventListener("click", () => {
 });
 
 function toggleCivicsDebug() {
-    showCivicsDebug = !showCivicsDebug;
+    DEBUG = !DEBUG;
     draw();
-    console.log("Civici debug:", showCivicsDebug ? "ON" : "OFF");
+    console.log("Civici debug:", DEBUG ? "ON" : "OFF");
 }
 
 function drawCivicsDebug() {
@@ -404,16 +405,37 @@ function drawTileCoordinatesDebug() {
 
     ctx.restore();
 }
+function getPackagesInDeliveryZone() {
+    const deliveryStartCol = VAN_RIGHT - 2;
+    const deliveryStartRow = VAN_TOP + 11;
+    const size = 3;
+
+    return packages.filter(pkg =>
+        pkg.col >= deliveryStartCol &&
+        pkg.col < deliveryStartCol + size &&
+        pkg.row >= deliveryStartRow &&
+        pkg.row < deliveryStartRow + size
+    );
+}
 
 
 document.getElementById('deliverButton').addEventListener('click', () => {
     const tile = mapData[van.row][van.col];
 
+    // 1️⃣ Controllo civici
     if (!tile || !ROAD_TYPES.includes(tile.type) || !tile.civics?.length) {
         alert("Qui non ci sono civici per consegnare");
         return;
     }
 
+    // 2️⃣ Controllo pacchi nella zona di consegna
+    const deliveryPackages = getPackagesInDeliveryZone();
+    if (deliveryPackages.length === 0) {
+        alert("Non hai preso alcun pacco da consegnare");
+        return;
+    }
+
+    // 3️⃣ Tutto ok → apri modale
     openDeliveryModal(tile.street, tile.civics);
 });
 

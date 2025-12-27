@@ -137,6 +137,13 @@ let offsetX, offsetY;
 let longPressTimer = null;
 let longPressTriggered = false;
 let touchStartTime = 0;
+let startX = 0;
+let startY = 0;
+let infoBoxTimer = null;
+
+const LONG_PRESS_TRIGGER = 200; // ms → riconosce il long press
+const INFOBOX_DELAY = 500;     // ms → mostra info
+const MOVE_TOLERANCE = 6;      // pixel
 
 const infoBox = document.createElement('div');
 infoBox.id = "infoBox";
@@ -152,6 +159,7 @@ Object.assign(infoBox.style, {
 document.body.appendChild(infoBox);
 // Mostra info pacco
 function showPackageInfo(pkg, x, y) {
+    if (!pkg) return; // 🛡️ sicurezza
     infoBox.innerHTML = `
         <strong>Destinatario:</strong> ${pkg.recipient}<br>
         <strong>Via:</strong> ${pkg.street}<br>
@@ -181,6 +189,12 @@ function showPackageInfo(pkg, x, y) {
 
     infoBox.style.left = `${left}px`;
     infoBox.style.top = `${top}px`;
+
+    // ⏱ reset timer di chiusura
+    clearTimeout(infoBoxTimer);
+    infoBoxTimer = setTimeout(() => {
+        infoBox.style.display = "none";
+    }, 2000);
 }
 
 
@@ -191,34 +205,55 @@ function startDrag(e) {
     const { x, y } = getEventCoords(e);
     const { row, col } = getCellFromCoords(x, y);
 
-    selectedPackage = packages.find(p => isInsidePackage(p, row, col));
-    if (!selectedPackage) return;
+    const pkg = packages.find(p => isInsidePackage(p, row, col));
+    if (!pkg) return;
 
+    selectedPackage = pkg;
     selectedPackage.isDragging = true;
+
     longPressTriggered = false;
-    offsetX = col - selectedPackage.col;
-    offsetY = row - selectedPackage.row;
+    offsetX = col - pkg.col;
+    offsetY = row - pkg.row;
     touchStartTime = Date.now();
 
     selectedPackage.wasInsideVan = (
-        selectedPackage.row >= VAN_TOP &&
-        selectedPackage.row + selectedPackage.height <= VAN_BOTTOM &&
-        selectedPackage.col >= VAN_LEFT &&
-        selectedPackage.col + selectedPackage.width <= VAN_RIGHT
+        pkg.row >= VAN_TOP &&
+        pkg.row + pkg.height <= VAN_BOTTOM &&
+        pkg.col >= VAN_LEFT &&
+        pkg.col + pkg.width <= VAN_RIGHT
     );
 
     longPressTimer = setTimeout(() => {
         longPressTriggered = true;
-        showPackageInfo(selectedPackage, x, y);
-        selectedPackage.isDragging = false; // blocca drag durante info
-    }, 500);
+        pkg.isDragging = false;
+
+        infoBoxTimer = setTimeout(() => {
+            showPackageInfo(pkg, x, y); // 🔒 pkg è stabile
+        }, INFOBOX_DELAY - LONG_PRESS_TRIGGER);
+
+    }, LONG_PRESS_TRIGGER);
 }
 
 function dragPackage(e) {
-    if (!selectedPackage || !selectedPackage.isDragging) return;
-    clearTimeout(longPressTimer);
+    if (!selectedPackage) return;
 
-    const { row, col } = getCellFromCoords(...Object.values(getEventCoords(e)));
+    const { x, y } = getEventCoords(e);
+
+    const dx = Math.abs(x - startX);
+    const dy = Math.abs(y - startY);
+
+    // se si muove troppo → annulla long press
+    if (dx > MOVE_TOLERANCE || dy > MOVE_TOLERANCE) {
+        clearTimeout(longPressTimer);
+        clearTimeout(infoBoxTimer);
+        infoBox.style.display = "none";
+
+        if (!selectedPackage.isDragging) return;
+    }
+
+    if (!selectedPackage.isDragging) return;
+
+    const { row, col } = getCellFromCoords(x, y);
     let newRow = row - offsetY;
     let newCol = col - offsetX;
 
@@ -264,9 +299,8 @@ function dragPackage(e) {
     draw();
 }
 function endDrag(e) {
-    if (!selectedPackage) return;
-
     clearTimeout(longPressTimer);
+    if (!selectedPackage) return;
 
     const elapsed = Date.now() - touchStartTime;
 
@@ -277,8 +311,8 @@ function endDrag(e) {
     const releaseY =
         (e.changedTouches ? e.changedTouches[0].clientY : e.clientY) - rect.top;
 
-    // Tap breve → ruota pacco solo se non è scattato il long press
-    if (elapsed < 500 && !longPressTriggered) {
+    // 👆 TAP BREVE → ROTAZIONE
+    if (!longPressTriggered && elapsed < INFOBOX_DELAY) {
         selectedPackage.rotate();
         draw();
     }
@@ -319,10 +353,6 @@ function pointInsideZone(x, y, zone) {
     );
 }
 
-function cannotPass(pkg, other) { // spazio libero laterale nel furgone 
-    const freeSpace = FUR_COLS - other.width;
-    return pkg.width > freeSpace;
-}
 
 // ===== Helper =====
 function getEventCoords(e) {
