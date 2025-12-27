@@ -39,7 +39,7 @@ body {
 }
 
 /* =====================================================
-   BOTTONI � STILE UNIFICATO
+   BOTTONI – STILE UNIFICATO
 ===================================================== */
 button {
     font-family: inherit;
@@ -213,7 +213,57 @@ canvas {
         }
 
 /* =====================================================
-   MODALI � BASE COMUNE
+   CIVICI & CAMPANELLI – MIGLIORATA LEGGIBILITÀ
+===================================================== */
+
+#deliveryColumns {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 300px; /* 🔑 */
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+
+    #deliveryColumns button {
+        font-size: 1.1rem;
+        padding: 10px 8px;
+        background: var(--blue-light);
+        color: var(--blue-main);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-soft);
+    }
+
+        #deliveryColumns button:hover {
+            background: #bbdefb;
+        }
+
+#civicRecipients {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 300px; /* 🔑 */
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+    #civicRecipients button {
+        font-size: 1rem;
+        padding: 6px 4px;
+        background: var(--gray-light);
+        color: var(--gray-dark);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-soft);
+    }
+
+        #civicRecipients button:hover {
+            background: #e0e0e0;
+        }
+
+/* =====================================================
+   MODALI – BASE COMUNE
 ===================================================== */
 #deliveryModal,
 #deliveryListModal,
@@ -227,7 +277,6 @@ canvas {
     z-index: 1000;
 }
 
-    #deliveryContent,
     #rulesContent,
     #deliveryListModal .modal-content {
         background: var(--white);
@@ -236,7 +285,19 @@ canvas {
         max-width: 600px;
         border-radius: 16px;
         box-shadow: var(--shadow-strong);
+        overflow: hidden;
     }
+
+#deliveryContent {
+    background: var(--white);
+    padding: 24px;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-strong);
+    max-height: 80vh; /* 🔑 fondamentale */
+    overflow: hidden; /* lo scroll è interno */
+}
 
 /* =====================================================
    LISTA CONSEGNE
@@ -335,3 +396,56 @@ canvas {
         #rulesContent button:hover {
             background: var(--green-dark);
         }
+
+/* =====================================================
+   BOTTONI FINE PARTITA
+===================================================== */
+#endGameModal button,
+#score button,
+#newGame,
+#viewPathButton {
+    font-family: inherit;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: background 0.2s, transform 0.1s;
+    padding: 10px 15px;
+    margin: 5px;
+}
+
+    #endGameModal button:hover,
+    #score button:hover,
+    #newGame:hover,
+    #viewPathButton:hover {
+        transform: translateY(-1px);
+    }
+
+/* Colore specifico per i pulsanti */
+#newGame {
+    background: var(--orange-main);
+    color: var(--white);
+}
+
+    #newGame:hover {
+        background: var(--orange-dark);
+    }
+
+#viewPathButton {
+    background: var(--green-main);
+    color: var(--white);
+}
+
+    #viewPathButton:hover {
+        background: var(--green-dark);
+    }
+
+#score button {
+    background: var(--blue-main);
+    color: var(--white);
+}
+
+    #score button:hover {
+        background: var(--blue-dark);
+    }

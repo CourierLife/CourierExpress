@@ -16,8 +16,6 @@ function drawVanArea() {
     );
 }
 
-
-
 function placePackages() {
     const occupied = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
 
@@ -472,15 +470,22 @@ function draw() {
 
     if (mode === "mappa") {
         drawMap();
-    } else if (mode === "pacchi") {
+        drawStreetNames(ctx, streets, CELL_SIZE);
+
+        if (showFullPath) drawVanPath(ctx); // disegna percorso se richiesto
+
+        drawVan();
+        drawBaseTile();
+    }
+ else if (mode === "pacchi") {
         drawVanArea();
         drawPackages();
-    } else if (mode === "consegna") {
+ } else if (mode === "consegna") {
         drawDeliveryZones();
         blockOutsideCells();
         drawVanArea();
         drawPackages();
-    }
+ }
 }
 
 function drawDeliveryZones() {
@@ -528,10 +533,6 @@ function blockOutsideCells() {
     }
 }
 
-// Passa a modalità mappa
-// Toggle modalità mappa con il pulsante "Mappa"
-
-// Controlla se tutti i pacchi sono nel furgone
 function allPackagesInVan() {
     return packages.every(p => {
         return (

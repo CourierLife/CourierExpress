@@ -53,6 +53,10 @@
         <div id="deliveryButtonContainer" style="display:none">
             <button id="deliveryButton">Consegna!</button>
         </div>
+        <div id="score" style="display:none">
+            <button id="score">Visualizza risultati</button>
+        </div>
+
         <!-- Nuovi pulsanti per la modalità consegna -->
         <div id="deliveryControls" style="display:none;">
             <button id="driveButton">Guida</button>
@@ -62,7 +66,7 @@
         <div id="deliveryModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index:1000;">
             <div id="deliveryContent" style="background:#fff; margin:50px auto; padding:20px; width:80%; max-width:600px; border-radius:10px;">
                 <h2>Seleziona il civico</h2>
-                <div id="deliveryColumns" style="display:flex; gap:20px;"></div>
+                <div id="deliveryColumns"></div>
                 <div id="civicRecipients" style="margin-top:20px;"></div>
                 <button id="confirmDelivery" style="margin-top:20px; display:none;">Consegna</button>
                 <button id="closeDeliveryModal" style="margin-top:20px;">Chiudi</button>
@@ -92,14 +96,18 @@
 
             <h3>📦 Carico pacchi</h3>
             <p>
-                All’inizio dovrai <strong>caricare i pacchi sul furgone</strong> trascinandoli
-                nell’area <strong>arancione</strong>.
+                All’inizio della partita dovrai <strong>caricare i pacchi sul furgone</strong>
+                trascinandoli nell’area <strong>arancione</strong>.
             </p>
             <p>
-                Se tieni premuto su un pacco puoi vedere i dettagli:
+                In alto a destra trovi sempre la <strong>lista delle consegne</strong>:
+                puoi aprirla in qualsiasi momento per controllare i pacchi ancora da consegnare.
+                Se vuoi, puoi anche <strong>ordinarla</strong> utilizzando l’apposito pulsante.
+            </p>
+            <p>
+                Tenendo premuto su un pacco puoi visualizzarne i dettagli:
                 <strong>via, civico e cognome</strong> del destinatario.
             </p>
-
             <h3>🚚 Guida del furgone</h3>
             <ul>
                 <li><strong>Gas</strong>: avvia il furgone che procede automaticamente in avanti.</li>
@@ -125,6 +133,20 @@
             </p>
 
             <button id="startGameButton">Inizia a giocare</button>
+        </div>
+    </div>
+
+    <div id="endGameModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index:2000;">
+        <div style="background:#fff; margin:50px auto; padding:20px; width:80%; max-width:600px; border-radius:10px; text-align:center; position:relative;">
+            <h2>Fine partita</h2>
+            <p><strong>Orario inizio:</strong> <span id="startTime">09:00</span></p>
+            <p><strong>Orario fine carico:</strong> <span id="loadEndTime">-</span></p>
+            <p><strong>Orario arrivo base:</strong> <span id="endTime">-</span></p>
+            <p><strong>Pacchi consegnati:</strong> <span id="deliveredCount">0</span></p>
+            <p><strong>Tempo medio per pacco:</strong> <span id="avgTimePerPackage">-</span></p>
+            <p><strong>Step percorsi:</strong> <span id="totalSteps">0 m</span></p>
+            <button id="newGame" style="margin-top:15px;">Nuova partita</button>
+            <button id="viewPathButton" style="margin-top:15px;">Visualizza il percorso</button>
         </div>
     </div>
 

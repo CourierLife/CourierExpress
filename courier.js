@@ -7,6 +7,7 @@ van.targetCol = van.col;
 let steps = 0;
 let isMoving = false; // se il furgone sta andando avanti
 van.direction = "up";
+let vanPath = [];
 
 const vanFront = new Image();
 vanFront.src = "img/vanFront.png";
@@ -77,23 +78,35 @@ function formatCivics(civicsArray) {
     return civicsArray.map(c => `${c.number} (${c.bells})`).join(", ");
 }
 
-function logVanPosition() {
+function logVanPosition(type = "move") {
     const r = van.row;
     const c = van.col;
-    const streetTile = mapData[r][c];
+    const tile = mapData[r][c];
 
-    if (!streetTile || !ROAD_TYPES.includes(streetTile.type)) {
-        console.log("Furgone fuori strada");
+    if (!tile || !ROAD_TYPES.includes(tile.type)) return;
+
+    const last = vanPath[vanPath.length - 1];
+
+    // evita doppio log sullo stesso tile
+    if (last && last.row === r && last.col === c && last.type === type) {
         return;
     }
 
-    const civics = streetTile.civics?.length
-        ? formatCivics(streetTile.civics)
-        : "nessun civico";
+    vanPath.push({
+        row: r,
+        col: c,
+        street: tile.street || null,
+        civics: tile.civics ? tile.civics.map(c => c.number) : [],
+        type, // "move" | "stop"
+        time: Date.now()
+    });
 
+    // 🔍 DEBUG opzionale
+    /*
     console.log(
-        `Furgone in ${streetTile.street || "Via sconosciuta"} – civici → ${civics}`
+        `[${type.toUpperCase()}] ${tile.street || "Via sconosciuta"} (${r},${c})`
     );
+    */
 }
 
 function updateStreetInfo(lastDir) {
@@ -216,13 +229,14 @@ function moveVan(dr, dc, updateDir = true) {
     van.row = newRow;
     van.col = newCol;
 
-    steps++;
-    document.getElementById('steps').innerText = steps;
+    steps += 15; // ogni passo del furgone corrisponde a 15 m
+    document.getElementById('steps').innerText = steps + " m";
 
-    logVanPosition();
+    logVanPosition("move");
     lastDir = van.direction;
     updateStreetInfo(lastDir);
     updateCivicInfo(lastDir);
+    // Ogni volta che il van si muove o aggiorna la mappa:
 }
 
 function moveVanByDirection(multiplier = 1) {
@@ -269,40 +283,94 @@ function gameLoop(timestamp) {
 
     // Disegna tutto in base alla modalità
     draw();
+    checkReturnToBase();
 
     gameLoop.lastTimestamp = timestamp;
     requestAnimationFrame(gameLoop);
 }
 requestAnimationFrame(gameLoop);
+// genera i colori per le celle di tipo 1 UNA VOLTA
+function generateZoneColors() {
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+            const tile = mapData[r][c];
+            if (tile.type === 1) {
+                let hue = 0;
+                if (r >= 0 && r <= 10 && c >= 0 && c <= 8) hue = 200;      // blu
+                else if (r >= 11 && r <= 24 && c >= 0 && c <= 8) hue = 120;    // verde
+                else if (r >= 0 && r <= 11 && c >= 9 && c <= 14) hue = 50;   // giallo
+                else if (r >= 12 && r <= 24 && c >= 9 && c <= 14) hue = 0; // rosso
+
+                // piccola variazione di luminosità e saturazione
+                const sat = 50 + Math.random() * 20;   // 50-70%
+                const light = 40 + Math.random() * 20; // 40-60%
+
+                tile.color = `hsl(${hue}, ${sat}%, ${light}%)`;
+            }
+        }
+    }
+}
+
+// aggiorni drawMap() per usare il colore pre-generato
 function drawMap() {
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             const tile = mapData[r][c];
 
-            if (tile.type === 1) ctx.fillStyle = "#8B0000";        // edificio
+            if (tile.type === 1) ctx.fillStyle = tile.color;       // usa colore pre-generato
             else if (tile.type === 2) ctx.fillStyle = "#8BC34A";   // parco
             else ctx.fillStyle = "#CCCCCC";                        // strada
 
             ctx.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-            ctx.strokeStyle = "#333";
-            ctx.strokeRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
+            // frecce stradali
             if ([3, 4, 5, 6].includes(tile.type)) drawArrow(c, r, directionMap[tile.type]);
+
+            // bordi tra strada e edifici/parchi
+            if (tile.type === 1 || tile.type === 2) {
+                ctx.strokeStyle = "white";
+                ctx.lineWidth = 2;
+
+                if (r > 0 && [0, 3, 4, 5, 6].includes(mapData[r - 1][c].type)) {
+                    ctx.beginPath();
+                    ctx.moveTo(c * CELL_SIZE, r * CELL_SIZE);
+                    ctx.lineTo((c + 1) * CELL_SIZE, r * CELL_SIZE);
+                    ctx.stroke();
+                }
+                if (r < ROWS - 1 && [0, 3, 4, 5, 6].includes(mapData[r + 1][c].type)) {
+                    ctx.beginPath();
+                    ctx.moveTo(c * CELL_SIZE, (r + 1) * CELL_SIZE);
+                    ctx.lineTo((c + 1) * CELL_SIZE, (r + 1) * CELL_SIZE);
+                    ctx.stroke();
+                }
+                if (c > 0 && [0, 3, 4, 5, 6].includes(mapData[r][c - 1].type)) {
+                    ctx.beginPath();
+                    ctx.moveTo(c * CELL_SIZE, r * CELL_SIZE);
+                    ctx.lineTo(c * CELL_SIZE, (r + 1) * CELL_SIZE);
+                    ctx.stroke();
+                }
+                if (c < COLS - 1 && [0, 3, 4, 5, 6].includes(mapData[r][c + 1].type)) {
+                    ctx.beginPath();
+                    ctx.moveTo((c + 1) * CELL_SIZE, r * CELL_SIZE);
+                    ctx.lineTo((c + 1) * CELL_SIZE, (r + 1) * CELL_SIZE);
+                    ctx.stroke();
+                }
+            }
         }
     }
+}
 
-    // disegna furgone più grande (1.5x CELL_SIZE)
+function drawVan() {
+    // disegna furgone
     const vanScale = 1.4;
-    const offset = (CELL_SIZE * (vanScale - 1)) / 2; // per centrarlo sulla cella
-
-    let vanImg = vanFront; // default
+    const offset = (CELL_SIZE * (vanScale - 1)) / 2;
+    let vanImg = vanFront;
     switch (van.direction) {
         case "up": vanImg = vanBack; break;
         case "down": vanImg = vanFront; break;
         case "left": vanImg = vanLeft; break;
         case "right": vanImg = vanRight; break;
     }
-
     ctx.drawImage(
         vanImg,
         van.x - offset,
@@ -310,12 +378,23 @@ function drawMap() {
         CELL_SIZE * vanScale,
         CELL_SIZE * vanScale
     );
+}
 
+function drawBaseTile() {
+    const r = 21;
+    const c = 11;
+    const x = c * CELL_SIZE + CELL_SIZE / 2;
+    const y = r * CELL_SIZE + CELL_SIZE / 2;
 
-    if (DEBUG) {
-        drawTileCoordinatesDebug();
-    }
+    ctx.save();
+    ctx.font = `${CELL_SIZE}px Arial`; // dimensione uguale alla tile
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
 
+    // emoji edificio / garage
+    ctx.fillText("🏢", x, y);
+
+    ctx.restore();
 }
 
 function isBlockedByOneWay(tileType, dr, dc) {
@@ -358,33 +437,6 @@ function toggleCivicsDebug() {
     DEBUG = !DEBUG;
     draw();
     console.log("Civici debug:", DEBUG ? "ON" : "OFF");
-}
-
-function drawCivicsDebug() {
-    ctx.save();
-    ctx.font = "12px sans-serif";
-    ctx.fillStyle = "rgba(0,0,0,1)";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    for (let r = 0; r < ROWS; r++) {
-        for (let c = 0; c < COLS; c++) {
-            const tile = mapData[r][c];
-
-            // Solo tile strada con civici
-            if (!tile || !ROAD_TYPES.includes(tile.type) || !tile.civics?.length) continue;
-
-            const x = c * CELL_SIZE + CELL_SIZE / 2;
-            const y = r * CELL_SIZE + CELL_SIZE / 2;
-
-            // Es: "1 | 2 | 2/1"
-            const txt = tile.civics.map(c => c.number).join(" | ");
-
-            ctx.fillText(txt, x, y);
-        }
-    }
-
-    ctx.restore();
 }
 
 function drawTileCoordinatesDebug() {
@@ -516,7 +568,18 @@ function openDeliveryModal(currentStreet, civicsOnTile) {
             return;
         }
 
+        const deliveredPackage = packages[index];
+
         packages.splice(index, 1);
+
+        logVanPosition("stop");
+
+        logGameEvent("delivery", {
+            street: deliveredPackage.street,
+            civic: deliveredPackage.civic,
+            recipient: selectedRecipient,
+            position: { row: van.row, col: van.col }
+        });
 
         modal.style.display = "none";
         draw();
@@ -528,3 +591,122 @@ function openDeliveryModal(currentStreet, civicsOnTile) {
 
     modal.style.display = "block";
 }
+let showFullPath = false;
+function drawVanPath(ctx) {
+    if (vanPath.length < 2) return;
+
+    ctx.save();
+
+    // linea del percorso
+    ctx.strokeStyle = "rgba(21, 101, 192, 0.7)";
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+
+    vanPath.forEach((p, i) => {
+        const x = p.col * CELL_SIZE + CELL_SIZE / 2;
+        const y = p.row * CELL_SIZE + CELL_SIZE / 2;
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    });
+
+    ctx.stroke();
+
+    // stop di consegna
+    vanPath
+        .filter(p => p.type === "stop")
+        .forEach(p => {
+            const x = p.col * CELL_SIZE + CELL_SIZE / 2;
+            const y = p.row * CELL_SIZE + CELL_SIZE / 2;
+
+            ctx.fillStyle = "#e53935";
+            ctx.beginPath();
+            ctx.arc(x, y, 6, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+    ctx.restore();
+}
+
+function showEndScreen() {
+    saveGameResults();
+    // Calcola orario di fine (ultimo aggiornamento del timer)
+    const endTime = getGameTime();
+
+    // Conteggio pacchi consegnati dalla timeline
+    const totalDelivered = gameTimeline.filter(ev => ev.type === "delivery").length;
+
+    // Trova l'evento di inizio guida (dopo il carico)
+    const startEvent = gameTimeline.find(ev => ev.type === "start_drive");
+    const startTime = startEvent ? startEvent.time : { hours: 9, minutes: 0 };
+
+    // Calcolo tempo totale in minuti
+    const totalMinutesStart = startTime.hours * 60 + startTime.minutes;
+    const totalMinutesEnd = endTime.hours * 60 + endTime.minutes;
+    const totalMinutesElapsed = totalMinutesEnd - totalMinutesStart;
+
+    // Tempo medio per pacco
+    const avgMinutesPerPackage = totalDelivered > 0 ? (totalMinutesElapsed / totalDelivered) : 0;
+    const avgMinutesRounded = Math.round(avgMinutesPerPackage * 10) / 10;
+
+    // Mostra la modale già presente nell'HTML
+    const modal = document.getElementById('endGameModal');
+    modal.style.display = "block";
+
+    // Aggiorna i dati nella modale
+    document.getElementById('loadEndTime').innerText = loadEndTime
+        ? `${String(loadEndTime.hours).padStart(2, '0')}:${String(loadEndTime.minutes).padStart(2, '0')}`
+        : "-";
+    document.getElementById('endTime').innerText = `${String(endTime.hours).padStart(2, '0')}:${String(endTime.minutes).padStart(2, '0')}`;
+    document.getElementById('deliveredCount').innerText = totalDelivered;
+    document.getElementById('avgTimePerPackage').innerText = `${avgMinutesRounded} min`;
+    document.getElementById('totalSteps').innerText = `${steps} m`;
+}
+
+// Listener per pulsante "Visualizza percorso"
+document.getElementById('viewPathButton').addEventListener('click', () => {
+    document.getElementById('endGameModal').style.display = "none";
+    document.getElementById('moveControls').style.display = "none";
+    document.getElementById('deliveryButton').style.display = "none";
+    document.getElementById('score').style.display = "block";
+
+    mode = "mappa";
+    showFullPath = true; // attiva il disegno del percorso
+    draw();
+});
+
+document.getElementById('score').addEventListener('click', () => {
+    document.getElementById('endGameModal').style.display = "block";
+});
+
+document.getElementById("newGame").addEventListener("click", () => {
+    document.getElementById('endGameModal').style.display = "none";
+    document.getElementById('score').style.display = "none";
+    resetGame();
+});
+
+function saveGameResults() {
+    const endTime = getGameTime();
+    const totalDelivered = gameTimeline.filter(ev => ev.type === "delivery").length;
+    const startEvent = gameTimeline.find(ev => ev.type === "start_drive");
+    const startTime = startEvent ? startEvent.time : { hours: 9, minutes: 0 };
+    const totalMinutesStart = startTime.hours * 60 + startTime.minutes;
+    const totalMinutesEnd = endTime.hours * 60 + endTime.minutes;
+    const totalMinutesElapsed = totalMinutesEnd - totalMinutesStart;
+    const avgMinutesPerPackage = totalDelivered > 0 ? (totalMinutesElapsed / totalDelivered) : 0;
+    const avgMinutesRounded = Math.round(avgMinutesPerPackage * 10) / 10;
+
+    const results = {
+        startTime,
+        endTime,
+        totalDelivered,
+        avgMinutesRounded,
+        steps
+    };
+
+    localStorage.setItem("courierGameResults", JSON.stringify(results));
+}
+
+generateZoneColors();

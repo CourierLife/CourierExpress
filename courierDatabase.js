@@ -1,15 +1,17 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+let gameTimeline = [];
+
 const ROWS = 25;
 const COLS = 15;
-
+const BASE_TILE = { r: 21, c: 11 };
 const FUR_ROWS = 10; // altezza furgone
 const FUR_COLS = 5;  // larghezza furgone
 let vanGrid = { row: 0, col: Math.floor((COLS - FUR_COLS) / 2) };
 
 let mode = "pacchi"; // modalità iniziale
-
+let loadEndTime = null;
 // Coordinate del furgone sul canvas
 const VAN_TOP = vanGrid.row;                 // 0
 const VAN_BOTTOM = vanGrid.row + FUR_ROWS;  // 10
@@ -19,7 +21,6 @@ const VAN_RIGHT = vanGrid.col + FUR_COLS;   // es. 10
 // Dimensioni dell’area di carico sotto il furgone
 const LOAD_ROWS = ROWS - FUR_ROWS;         // 15 righe sotto il furgone
 const LOAD_COLS = COLS;                     // tutte le colonne
-
 // Griglia di consegna (stessa dimensione del furgone)
 const DELIVERY_ROWS = FUR_ROWS;
 const DELIVERY_COLS = FUR_COLS;
@@ -92,27 +93,40 @@ const rawMap = [
     [2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2]
 ];
 
+const ZONES = [
+    { id: 0, rMin: 0, rMax: 10, cMin: 0, cMax: 8 },
+    { id: 1, rMin: 11, rMax: 24, cMin: 0, cMax: 8 },
+    { id: 2, rMin: 0, rMax: 11, cMin: 9, cMax: 14 },
+    { id: 3, rMin: 12, rMax: 24, cMin: 9, cMax: 14 }
+];
+
+function getZoneFromCell(r, c) {
+    return ZONES.find(z =>
+        r >= z.rMin && r <= z.rMax &&
+        c >= z.cMin && c <= z.cMax
+    );
+}
+
 const streets = [
     { name: "Via Muggia", start: [20, 10], end: [20, 12] },
     { name: "Via Seychelles", start: [1, 2], end: [1, 8] },
-    { name: "Via Bermuda", start: [4, 2], end: [4, 3] },
+    { name: "Via Caraibi", start: [4, 2], end: [4, 3] },
     { name: "Via Lussemburgo", start: [7, 2], end: [7, 5] },
     { name: "Via Montecarlo", start: [9, 2], end: [9, 7] },
     { name: "Via Hong Kong", start: [2, 4], end: [6, 4] },
     { name: "Via Napoli", start: [12, 1], end: [23, 1] },
-    { name: "Via Caraibi", start: [1, 1], end: [11, 1] },
+    { name: "Via Bermuda", start: [1, 1], end: [11, 1] },
     { name: "Via Singapore", start: [3, 5], end: [3, 7] },
     { name: "Via Giappone", start: [5, 5], end: [5, 7] },
-    { name: "Via Liechtenstein", start: [7, 6], end: [8, 6] },
+    { name: "Via Svizzera", start: [7, 6], end: [8, 6] },
     { name: "Via San Francesco", start: [1, 13], end: [11, 13] },
     { name: "Via San Luigi", start: [3, 11], end: [3, 12] },
-    { name: "Via San Marco", start: [6, 10], end: [6, 11] },
     { name: "Via San Marco", start: [4, 11], end: [8, 11] },
     { name: "Via San Giacomo", start: [9, 11], end: [9, 12] },
     { name: "Via San Giovanni", start: [1, 9], end: [1, 12] },
     { name: "Via San Giusto", start: [11, 10], end: [11, 12] },
     { name: "Via Staranzano", start: [12, 11], end: [15, 11] },
-    { name: "Via Fossalon", start: [16, 10], end: [16, 11] },
+    { name: "Via Staranzano", start: [16, 10], end: [16, 11] },
     { name: "Via Lignano", start: [18, 10], end: [18, 12] },
     { name: "Via Grado", start: [12, 13], end: [18, 13] },
     { name: "Via Venezia", start: [13, 6], end: [22, 6] },
@@ -122,12 +136,71 @@ const streets = [
     { name: "Via Potenza", start: [21, 2], end: [21, 7] },
     { name: "Via Sgonico", start: [20, 13], end: [23, 13] },
     { name: "Via Trieste", start: [2, 8], end: [23, 9] },
-    { name: "Viale Milano", start: [11, 2], end: [12, 7] },
-    { name: "Viale Nazionale", start: [13, 3], end: [22, 4] },
+    { name: "Viale Nazionale", start: [11, 2], end: [12, 7] },
+    { name: "Viale Milano", start: [13, 3], end: [22, 4] },
     { name: "Via Palermo", start: [23, 1], end: [23, 8] },
     { name: "Via Prosecco", start: [23, 9], end: [23, 13] },
 
 ];
+
+function drawStreetNames(ctx, streets, CELL_SIZE) {
+    ctx.save();
+    ctx.font = "bold 12px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    streets.forEach(street => {
+        // rimuove "Via " o "Viale "
+        const name = street.name.replace(/^Via\s+|^Viale\s+/i, "");
+        const [r1, c1] = street.start;
+        const [r2, c2] = street.end;
+
+        const x1 = c1 * CELL_SIZE + CELL_SIZE / 2;
+        const y1 = r1 * CELL_SIZE + CELL_SIZE / 2;
+        const x2 = c2 * CELL_SIZE + CELL_SIZE / 2;
+        const y2 = r2 * CELL_SIZE + CELL_SIZE / 2;
+
+        const horizontal = Math.abs(c2 - c1) >= Math.abs(r2 - r1);
+
+        const centerX = (x1 + x2) / 2;
+        const centerY = (y1 + y2) / 2;
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+
+        if (!horizontal) ctx.rotate(-Math.PI / 2);
+
+        // calcola larghezza e altezza testo
+        const metrics = ctx.measureText(name);
+        const textWidth = metrics.width;
+        const textHeight = 14; // approssimazione per altezza del testo
+        const padding = 1; // piccolo padding attorno al testo
+        const radius = 4;  // raggio angoli arrotondati
+
+        // rettangolo bianco semitrasparente con bordi arrotondati
+        ctx.fillStyle = "rgba(255,255,255,0.5)";
+        ctx.beginPath();
+        ctx.moveTo(-textWidth / 2 - padding + radius, -textHeight / 2 - padding);
+        ctx.lineTo(textWidth / 2 + padding - radius, -textHeight / 2 - padding);
+        ctx.quadraticCurveTo(textWidth / 2 + padding, -textHeight / 2 - padding, textWidth / 2 + padding, -textHeight / 2 - padding + radius);
+        ctx.lineTo(textWidth / 2 + padding, textHeight / 2 + padding - radius);
+        ctx.quadraticCurveTo(textWidth / 2 + padding, textHeight / 2 + padding, textWidth / 2 + padding - radius, textHeight / 2 + padding);
+        ctx.lineTo(-textWidth / 2 - padding + radius, textHeight / 2 + padding);
+        ctx.quadraticCurveTo(-textWidth / 2 - padding, textHeight / 2 + padding, -textWidth / 2 - padding, textHeight / 2 + padding - radius);
+        ctx.lineTo(-textWidth / 2 - padding, -textHeight / 2 - padding + radius);
+        ctx.quadraticCurveTo(-textWidth / 2 - padding, -textHeight / 2 - padding, -textWidth / 2 - padding + radius, -textHeight / 2 - padding);
+        ctx.closePath();
+        ctx.fill();
+
+        // testo rosso pastello
+        ctx.fillStyle = "hsl(0, 70%, 60%)";
+        ctx.fillText(name, 0, 0);
+
+        ctx.restore();
+    });
+
+    ctx.restore();
+}
 
 function addCivicToStreet(row, col, civics) {
     const tile = mapData[row][col];
@@ -501,19 +574,19 @@ function loadStreetCivics() {
         { number: "3", bells: 10 },
     ]);
     addCivicToStreet(12, 11, [
-        { number: "2", bells: 12 },
-        { number: "1", bells: 8 },
+        { number: "10", bells: 12 },
+        { number: "9", bells: 8 },
     ]);
     addCivicToStreet(13, 11, [
-        { number: "4", bells: 12 },
-        { number: "3", bells: 8 },
+        { number: "8", bells: 12 },
+        { number: "7", bells: 8 },
     ]);
     addCivicToStreet(14, 11, [
         { number: "6", bells: 12 },
         { number: "5", bells: 8 },
     ]);
     addCivicToStreet(15, 11, [
-        { number: "8", bells: 12 },
+        { number: "4", bells: 12 },
     ]);
     addCivicToStreet(12, 13, [
         { number: "2", bells: 5 },
@@ -890,7 +963,7 @@ const PACKAGE_TYPES = [
     { w: 3, h: 2, count: 2, size: "Grande"},
     { w: 2, h: 2, count: 2, size: ""},
     { w: 3, h: 1, count: 3, size: ""},
-    { w: 2, h: 1, count: 4, size: "piccolo"},
+    { w: 2, h: 1, count: 4, size: "Piccolo"},
 ];
 
 const ROAD_TYPES = [0, 3, 4, 5, 6];
@@ -942,6 +1015,9 @@ function generateBellList(mapData) {
             const tile = mapData[r][c];
             if (!tile || !ROAD_TYPES.includes(tile.type) || !tile.civics || !tile.street) continue;
 
+            const zone = getZoneFromCell(r, c);
+            if (!zone) continue;
+
             tile.civics.forEach(civic => {
                 if (!civic.recipients) return;
 
@@ -949,7 +1025,10 @@ function generateBellList(mapData) {
                     bellList.push({
                         street: tile.street,
                         civic: civic.number,
-                        recipient
+                        recipient,
+                        zoneId: zone.id, // 🔥 QUI
+                        r,               // opzionale ma utile
+                        c
                     });
                 });
             });
@@ -983,22 +1062,85 @@ function randomSoftColor() {
 }
 
 function generatePackagesFromBellList(bellList) {
-    const shuffled = [...bellList].sort(() => Math.random() - 0.5);
     const packages = [];
     let id = 1;
-    let index = 0;
 
+    // 🔢 contatore pacchi per zona
+    const zoneCount = {
+        0: 0,
+        1: 0,
+        2: 0,
+        3: 0
+    };
+
+    // 📂 destinatari divisi per zona
+    const zoneBuckets = {
+        0: [],
+        1: [],
+        2: [],
+        3: []
+    };
+
+    // riempi i bucket
+    bellList.forEach(b => {
+        if (zoneBuckets[b.zoneId]) {
+            zoneBuckets[b.zoneId].push(b);
+        }
+    });
+
+    // shuffle interno per varietà
+    Object.values(zoneBuckets).forEach(arr => {
+        arr.sort(() => Math.random() - 0.5);
+    });
+
+    // totale pacchi da creare
     const totalPackages = PACKAGE_TYPES.reduce((s, p) => s + p.count, 0);
 
-    if (shuffled.length < totalPackages) {
-        console.warn("⚠️ Destinatari insufficienti per il numero di pacchi");
+    let remainingPackages = totalPackages;
+
+    /* =====================================================
+       🟢 FASE 1 — 1 PACCO PER ZONA (se possibile)
+    ===================================================== */
+    for (let zoneId = 3; zoneId < 4 && remainingPackages > 0; zoneId++) {
+        if (zoneBuckets[zoneId].length === 0) continue;
+
+        const dest = zoneBuckets[zoneId].pop();
+        const type = PACKAGE_TYPES.find(t => t.count > 0);
+        if (!type) break;
+
+        const pkg = new Package(
+            id++,
+            type.w,
+            type.h,
+            dest.street,
+            dest.civic,
+            [dest.recipient]
+        );
+
+        pkg.size = type.size;
+        pkg.color = randomSoftColor();
+        pkg.zoneId = zoneId;
+
+        packages.push(pkg);
+        zoneCount[zoneId]++;
+        type.count--;
+        remainingPackages--;
     }
 
-    for (const type of PACKAGE_TYPES) {
-        for (let i = 0; i < type.count; i++) {
-            if (!shuffled[index]) break;
+    /* =====================================================
+       🟡 FASE 2 — RIEMPIMENTO FINO A MAX 4 PER ZONA
+    ===================================================== */
+    while (remainingPackages > 0) {
+        let placed = false;
 
-            const dest = shuffled[index++];
+        for (let zoneId = 0; zoneId < 4; zoneId++) {
+            if (zoneCount[zoneId] >= 4) continue;
+            if (zoneBuckets[zoneId].length === 0) continue;
+
+            const type = PACKAGE_TYPES.find(t => t.count > 0);
+            if (!type) break;
+
+            const dest = zoneBuckets[zoneId].pop();
 
             const pkg = new Package(
                 id++,
@@ -1009,12 +1151,21 @@ function generatePackagesFromBellList(bellList) {
                 [dest.recipient]
             );
 
-            // 🎨 colore assegnato UNA VOLTA
             pkg.size = type.size;
             pkg.color = randomSoftColor();
+            pkg.zoneId = zoneId;
 
             packages.push(pkg);
+            zoneCount[zoneId]++;
+            type.count--;
+            remainingPackages--;
+
+            placed = true;
+            break;
         }
+
+        // 🔴 nessuna zona disponibile → stop
+        if (!placed) break;
     }
 
     return packages;
@@ -1024,8 +1175,8 @@ assignStreetNames(mapData, streets);
 loadStreetCivics();
 assignRecipientsToCivics(mapData, cognomi);
 
-const bellList = generateBellList(mapData); // prende tutti i civici con destinatari
-const packages = generatePackagesFromBellList(bellList); // genera i pacchi
+let bellList = generateBellList(mapData); // prende tutti i civici con destinatari
+let packages = generatePackagesFromBellList(bellList); // genera i pacchi
 console.log(packages);
 console.log(bellList);
 console.log(
@@ -1050,10 +1201,45 @@ function updateTimer() {
     const displayMinutes = String(gameMinutes).padStart(2, "0");
     document.getElementById("timer").innerText = `${displayHours}:${displayMinutes}`;
 
-    // Fine turno
-    if ((gameHours === 18 && gameMinutes === 30) || packages.length === 0) {
+    // Fine turno solo per orario
+    if (gameHours === 18 && gameMinutes === 30) {
         clearInterval(timerInterval);
-        console.log("Timer fermo!");
+        console.log("Timer fermo per orario!");
+    }
+}
+
+function getGameTime() {
+    return {
+        hours: gameHours,
+        minutes: gameMinutes,
+        label: `${String(gameHours).padStart(2, "0")}:${String(gameMinutes).padStart(2, "0")}`
+    };
+}
+
+function logGameEvent(type, extra = {}) {
+    const time = getGameTime();
+    gameTimeline.push({
+        type,           // "start_drive" | "delivery" | "return_base"
+        time,
+        ...extra
+    });
+
+    // DEBUG opzionale
+    console.log(`⏱️ ${time.label} → ${type}`, extra);
+}
+
+// Controllo se il furgone è tornato alla base
+let gameFinished = false;
+function checkReturnToBase() {
+    if (gameFinished) return;
+    const vanRow = Math.floor(van.y / CELL_SIZE);
+    const vanCol = Math.floor(van.x / CELL_SIZE);
+
+    if (vanRow === BASE_TILE.r && vanCol === BASE_TILE.c && packages.length === 0) {
+        console.log("⏱️ Furgone tornato alla base, gioco terminato!");
+        gameFinished = true;
+        clearInterval(timerInterval);
+        showEndScreen(); // funzione che gestisce schermata finale
     }
 }
 
@@ -1176,7 +1362,12 @@ document.getElementById('mapButton').addEventListener('click', () => {
 // Pulsante "Carico completato"
 document.getElementById('completeButton').addEventListener('click', () => {
     if (allPackagesInVan()) {
-        mode = "mappa"; // switch automatico alla modalità mappa
+        loadEndTime = getGameTime();
+        logGameEvent("start_drive", {
+            position: { row: van.row, col: van.col }
+        });
+
+        mode = "mappa";
         draw();
         document.getElementById('startButton').style.display = "none";
         document.getElementById('moveControls').style.display = "block";
@@ -1184,6 +1375,7 @@ document.getElementById('completeButton').addEventListener('click', () => {
     } else {
         alert("Ci sono ancora pacchi da caricare nel furgone!");
     }
+
     console.log("Modalità attuale:", mode);
 });
 
@@ -1236,7 +1428,49 @@ document.getElementById("closeDeliveryListModal").addEventListener("click", () =
 });
 
 
+function resetGame() {
+    // Resetta timer
+    gameHours = 9;
+    gameMinutes = 0;
+    document.getElementById("timer").innerText = "09:00";
 
+    // Resetta van
+    van.row = 21;  // la tile base
+    van.col = 11;
+    van.x = van.col * CELL_SIZE;
+    van.y = van.row * CELL_SIZE;
+    van.targetRow = van.row;
+    van.targetCol = van.col;
+    van.direction = "up";
+    isMoving = false;
+    vanPath = [];
 
+    // Resetta mapData civici
+    mapData.forEach(row => row.forEach(tile => {
+        if (tile.civics) tile.civics = [];
+    }));
 
+    // Riassegna nomi strade e civici
+    assignStreetNames(mapData, streets);
+    loadStreetCivics();  // deve generare i civici nelle tile
+    assignRecipientsToCivics(mapData, cognomi);
 
+    // Rigenera campanelli e pacchi
+    bellList = generateBellList(mapData);
+    packages = generatePackagesFromBellList(bellList);
+
+    // Resetta steps e HUD
+    steps = 0;
+    document.getElementById('steps').innerText = steps + " m";
+
+    // Resetta timeline
+    gameTimeline = [];
+
+    // Modalità
+    mode = "pacchi";
+    document.getElementById('startButton').style.display = "block";
+    document.getElementById('moveControls').style.display = "none";
+    document.getElementById('deliveryButtonContainer').style.display = "none";
+
+    draw();
+}
