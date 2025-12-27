@@ -1,6 +1,6 @@
-/* ======================
-   RESET & BASE
-====================== */
+/* =====================================================
+   RESET & VARIABILI GLOBALI
+===================================================== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -12,6 +12,24 @@ html, body {
     overflow: hidden;
 }
 
+:root {
+    --blue-main: #1565c0;
+    --blue-light: #e3f2fd;
+    --blue-dark: #0d47a1;
+    --orange-main: #ff9800;
+    --orange-dark: #fb8c00;
+    --green-main: #4caf50;
+    --green-dark: #43a047;
+    --red-main: #fb3838;
+    --gray-light: #f5f5f5;
+    --gray-mid: #ccc;
+    --gray-dark: #333;
+    --white: #ffffff;
+    --radius: 12px;
+    --shadow-soft: 0 3px 6px rgba(0,0,0,0.2);
+    --shadow-strong: 0 10px 25px rgba(0,0,0,0.35);
+}
+
 body {
     font-family: "Segoe UI", Roboto, sans-serif;
     background: linear-gradient(180deg, #eef3f9, #dfe7f1);
@@ -20,79 +38,121 @@ body {
     align-items: center;
 }
 
-/* ======================
+/* =====================================================
+   BOTTONI – STILE UNIFICATO
+===================================================== */
+button {
+    font-family: inherit;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: background 0.2s, transform 0.1s;
+}
+
+    button:hover {
+        transform: translateY(-1px);
+    }
+
+/* =====================================================
    HUD SUPERIORE
-====================== */
+===================================================== */
 #hud {
     width: 100%;
-    padding: 2px 6px;
-    background: #1e88e5;
-    color: #fff;
+    padding: 4px 10px;
+    background: var(--blue-main);
+    color: var(--white);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
     font-weight: 600;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    height: 40px; /* forza una sola riga */
 }
 
     #hud span {
-        min-width: 100px; /* garantisce spazio fisso per timer o step */
-        text-align: left;
-        display: inline-block;
+        white-space: nowrap;
+        line-height: 1;
     }
 
-/* ======================
+#deliveryList {
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+    #deliveryList:hover {
+        background: rgba(255,255,255,0.25);
+    }
+
+/* =====================================================
    INFO STRADA
-====================== */
+===================================================== */
 #streetInfoContainer {
     width: 100%;
-    background: #ffffff;
-    padding: 2px;
+    background: var(--white);
+    padding: 4px;
     text-align: center;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--gray-mid);
     font-size: 0.9rem;
 }
 
 #currentStreet {
     font-size: 1.1rem;
-    color: #1565c0;
+    color: var(--blue-main);
 }
 
-/* ======================
+/* =====================================================
    AREA GIOCO
-===================== */
+===================================================== */
 #gameContainer {
-    flex: 0 0 auto; /* non crescere, altezza naturale del canvas */
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* canvas in alto */
-    margin: 0; /* niente margine */
+    margin-top: 4px;
 }
 
 canvas {
     background: #cce5ff;
     border-radius: 18px;
-    border: 3px solid #1565c0;
+    border: 3px solid var(--blue-main);
     box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-    display: block;
 }
 
-/* ======================
+/* =====================================================
    CONTROLLI
-====================== */
+===================================================== */
 #controls {
-    margin: 0;
     width: 100%;
-    background: #fff;
-    border-top: 2px solid #ccc;
+    background: var(--white);
+    border-top: 2px solid var(--gray-mid);
     padding: 10px;
     display: flex;
     justify-content: center;
-    align-items: center; /* centro verticale pulsante consegna */
-    gap: 20px; /* spazio tra movimenti e consegna */
+    gap: 20px;
 }
 
+#startButton {
+    display: flex;
+    gap: 15px;
+}
+
+    #startButton button {
+        background: var(--orange-main);
+        color: var(--white);
+        width: 100px;
+        height: 50px;
+    }
+
+        #startButton button:hover {
+            background: var(--orange-dark);
+        }
+
+/* Movimento */
 #moveControls {
     display: flex;
     flex-direction: column;
@@ -105,346 +165,173 @@ canvas {
 }
 
 #moveControls button {
-    padding: 5px;
-    border: 1px solid #333;
-    border-radius: 10px;
-    background: #e3f2fd;
-    cursor: pointer;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    padding: 6px;
+    background: var(--blue-light);
 }
 
-    #moveControls button img {
-        width: 40px;
-        height: 40px;
-        pointer-events: none;
-    }
+#moveControls img {
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+}
 
+/* =====================================================
+   CONSEGNA
+===================================================== */
 #deliveryButtonContainer {
     display: flex;
-    align-items: center; /* centra verticalmente rispetto alle due righe di sinistra */
+    align-items: center;
 }
 
 #deliveryButton {
-    background: #ff9800;
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
+    background: var(--orange-main);
+    color: var(--white);
     width: 120px;
     height: 60px;
-    border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    font-size: 1.1rem;
 }
 
     #deliveryButton:hover {
-        background: #fb8c00;
+        background: var(--orange-dark);
     }
 
 #deliveryControls {
-    display: none; /* inizialmente nascosti */
+    display: none;
     flex-direction: column;
     gap: 10px;
-    align-items: center;
 }
 
     #deliveryControls button {
-        width: 150px; /* larghezza uniforme */
-        height: 50px; /* altezza uniforme */
-        border-radius: 10px;
-        border: none;
-        font-size: 1.2rem;
-        font-weight: bold;
-        cursor: pointer;
-        background: #ff9800;
-        color: #fff;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        background: var(--orange-main);
+        color: var(--white);
+        width: 150px;
+        height: 50px;
     }
 
         #deliveryControls button:hover {
-            background: #fb8c00;
+            background: var(--orange-dark);
         }
 
-/* ======================
-   MODALE CONSEGNA
-====================== */
-#deliveryModal {
+/* =====================================================
+   MODALI – BASE COMUNE
+===================================================== */
+#deliveryModal,
+#deliveryListModal,
+#rulesModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow-y: auto;
-}
-
-#deliveryContent {
-    background: #ffffff;
-    padding: 20px;
-    width: 90%;
-    max-width: 600px;
-    border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-    overflow-y: auto;
-}
-
-    #deliveryContent h2 {
-        text-align: center;
-        margin-bottom: 15px;
-        color: #1565c0;
-    }
-/* ======================
-   MODALE LISTA CONSEGNE
-====================== */
-#deliveryListModal {
-    display: flex; /* centra il contenuto */
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6); /* leggermente più scuro */
     z-index: 1000;
-    overflow-y: auto;
-    padding: 20px; /* margine interno se lo schermo è piccolo */
 }
 
+    #deliveryContent,
+    #rulesContent,
     #deliveryListModal .modal-content {
-        background: #ffffff;
-        padding: 30px;
-        width: 100%;
-        min-width: 340px; /* leggermente più grande */
+        background: var(--white);
+        padding: 24px;
+        width: 90%;
+        max-width: 600px;
         border-radius: 16px;
-        box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-        overflow-y: auto;
+        box-shadow: var(--shadow-strong);
     }
 
-    #deliveryListModal h3 {
-        text-align: center;
-        margin-bottom: 20px;
-        color: #1565c0;
-        font-size: 1.6rem;
-        font-weight: 700;
-    }
-
+/* =====================================================
+   LISTA CONSEGNE
+===================================================== */
 #deliveryListContent {
     list-style: none;
-    max-height: 500px; /* altezza massima con scroll */
+    max-height: 400px;
     overflow-y: auto;
-    padding: 0;
-    margin: 0;
 }
 
     #deliveryListContent li {
-        background: #e3f2fd;
+        background: var(--blue-light);
+        padding: 8px 10px;
+        border-radius: var(--radius);
         margin-bottom: 6px;
-        padding: 6px 6px;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 400;
-        color: #1565c0;
+        color: var(--blue-main);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
-        #deliveryListContent li:last-child {
-            margin-bottom: 0;
-        }
-
-#closeDeliveryListModal {
-    width: 100%;
-    margin-top: 20px;
-    background: #fb3838;
-    color: #fff;
-    padding: 12px;
-    font-size: 1.1rem;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.2s;
-}
-#sortDeliveryList {
-    width: 100%;
-    margin-top: 20px;
-    background: #1565c0;
-    color: #fff;
-    padding: 12px;
-    font-size: 1.1rem;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.2s;
-}
 .delivery-badge {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    background: #fff;
-    border: 2px solid #1565c0;
-    color: #1565c0;
-    font-weight: bold;
+    border: 2px solid var(--blue-main);
+    color: var(--blue-main);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    margin-left: 10px;
-    flex-shrink: 0;
-    transition: background 0.2s, color 0.2s;
 }
 
     .delivery-badge.active {
-        background: #1565c0;
-        color: #fff;
+        background: var(--blue-main);
+        color: var(--white);
     }
 
-    #closeDeliveryListModal:hover {
-        background: #0d47a1;
-    }
-
-/* ======================
-   CIVICI & CAMPANELLI
-====================== */
-#deliveryColumns button,
-#civicRecipients button {
-    width: 100%;
-    padding: 8px;
-    border-radius: 8px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-#deliveryColumns button {
-    background: #e3f2fd;
-    color: #1565c0;
-}
-
-    #deliveryColumns button:hover {
-        background: #bbdefb;
-    }
-
-#civicRecipients button {
-    background: #f5f5f5;
-    margin-top: 4px;
-}
-
-    #civicRecipients button:hover {
-        background: #e0e0e0;
-    }
-
-/* ======================
-   BOTTONI FINALI
-====================== */
+/* =====================================================
+   BOTTONI MODALI
+===================================================== */
 #confirmDelivery {
+    background: var(--green-main);
+    color: var(--white);
     width: 100%;
-    background: #4caf50;
-    color: #fff;
-    font-size: 1.1rem;
     padding: 10px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
 }
 
     #confirmDelivery:hover {
-        background: #43a047;
+        background: var(--green-dark);
     }
 
-#closeDeliveryModal {
+#closeDeliveryModal,
+#closeDeliveryListModal {
+    background: var(--red-main);
+    color: var(--white);
     width: 100%;
-    margin-top: 8px;
-    background: #ccc;
-    padding: 8px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
+    padding: 10px;
+    margin-top: 10px;
 }
 
-/* ======================
-   MODALE REGOLE INIZIALI
-====================== */
-#rulesModal {
-    position: fixed;
-    top: 0;
-    left: 0;
+#sortDeliveryList {
+    background: var(--blue-main);
+    color: var(--white);
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
+    padding: 10px;
+    margin-top: 10px;
 }
 
+/* =====================================================
+   MODALE REGOLE
+===================================================== */
 #rulesContent {
-    background: #ffffff;
-    padding: 20px;
-    max-width: 600px;
-    width: 90%;
-    height: 80vh; /* 80% altezza viewport */
-    overflow-y: auto; /* scroll interno */
-    border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-    font-size: 0.95rem;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
     #rulesContent h2 {
         text-align: center;
-        color: #1565c0;
-        margin-bottom: 10px;
+        color: var(--blue-main);
     }
 
     #rulesContent h3 {
         margin-top: 15px;
-        color: #1e88e5;
-    }
-
-    #rulesContent ul,
-    #rulesContent ol {
-        margin-left: 20px;
+        color: var(--blue-dark);
     }
 
     #rulesContent button {
         margin-top: 20px;
+        background: var(--green-main);
+        color: var(--white);
         width: 100%;
-        padding: 10px;
-        font-size: 1.1rem;
-        font-weight: bold;
-        border: none;
-        border-radius: 10px;
-        background: #4caf50;
-        color: #fff;
-        cursor: pointer;
+        padding: 12px;
     }
 
         #rulesContent button:hover {
-            background: #43a047;
-        }
-
-/* Pulsanti iniziali: Mappa, Lista, Partenza */
-#startButton {
-    display: flex;
-    gap: 15px; /* spazio tra i pulsanti */
-    justify-content: center;
-    flex-wrap: nowrap; /* evita che vadano a capo */
-}
-
-    #startButton button {
-        background: #ff9800;
-        color: #fff;
-        font-size: 14px; /* leggermente più piccolo */
-        font-weight: bold;
-        width: 100px; /* più stretti */
-        height: 50px;
-        border-radius: 10px;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-        transition: background 0.2s;
-    }
-
-        #startButton button:hover {
-            background: #fb8c00;
+            background: var(--green-dark);
         }

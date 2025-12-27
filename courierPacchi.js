@@ -163,6 +163,8 @@ let touchStartTime = 0;
 let startX = 0;
 let startY = 0;
 let infoBoxTimer = null;
+let interactionState = "idle";
+// idle | pressing | dragging | info
 
 const LONG_PRESS_TRIGGER = 200; // ms → riconosce il long press
 const INFOBOX_DELAY = 500;     // ms → mostra info
@@ -182,6 +184,10 @@ Object.assign(infoBox.style, {
 document.body.appendChild(infoBox);
 // Mostra info pacco
 function showPackageInfo(pkg, x, y) {
+    const rect = canvas.getBoundingClientRect();
+    const canvasX = x - rect.left;
+    const canvasY = y - rect.top;
+
     if (!pkg) return; // 🛡️ sicurezza
     infoBox.innerHTML = `
         <strong>Destinatario:</strong> ${pkg.recipient}<br>
@@ -232,49 +238,34 @@ function startDrag(e) {
     if (!pkg) return;
 
     selectedPackage = pkg;
-    selectedPackage.isDragging = true;
+    interactionState = "pressing";
 
-    longPressTriggered = false;
-    offsetX = col - pkg.col;
-    offsetY = row - pkg.row;
-    touchStartTime = Date.now();
-
-    selectedPackage.wasInsideVan = (
-        pkg.row >= VAN_TOP &&
-        pkg.row + pkg.height <= VAN_BOTTOM &&
-        pkg.col >= VAN_LEFT &&
-        pkg.col + pkg.width <= VAN_RIGHT
-    );
+    startX = x;
+    startY = y;
 
     longPressTimer = setTimeout(() => {
-        longPressTriggered = true;
-        pkg.isDragging = false;
-
-        infoBoxTimer = setTimeout(() => {
-            showPackageInfo(pkg, x, y); // 🔒 pkg è stabile
-        }, INFOBOX_DELAY - LONG_PRESS_TRIGGER);
-
-    }, LONG_PRESS_TRIGGER);
+        interactionState = "info";
+        showPackageInfo(pkg, x, y);
+    }, 500); // unico tempo chiaro
 }
 
 function dragPackage(e) {
     if (!selectedPackage) return;
 
     const { x, y } = getEventCoords(e);
-
     const dx = Math.abs(x - startX);
     const dy = Math.abs(y - startY);
 
-    // se si muove troppo → annulla long press
-    if (dx > MOVE_TOLERANCE || dy > MOVE_TOLERANCE) {
+    if (interactionState === "pressing" && (dx > 8 || dy > 8)) {
         clearTimeout(longPressTimer);
-        clearTimeout(infoBoxTimer);
-        infoBox.style.display = "none";
+        interactionState = "dragging";
 
-        if (!selectedPackage.isDragging) return;
+        selectedPackage.isDragging = true;
+        offsetX = getCellFromCoords(startX, startY).col - selectedPackage.col;
+        offsetY = getCellFromCoords(startX, startY).row - selectedPackage.row;
     }
 
-    if (!selectedPackage.isDragging) return;
+    if (interactionState !== "dragging") return;
 
     const { row, col } = getCellFromCoords(x, y);
     let newRow = row - offsetY;
@@ -323,48 +314,60 @@ function dragPackage(e) {
 }
 function endDrag(e) {
     clearTimeout(longPressTimer);
+
     if (!selectedPackage) return;
 
-    const elapsed = Date.now() - touchStartTime;
-
-    // Coordinate di rilascio (SERVONO PRIMA)
+    // Coordinate di rilascio (sempre disponibili)
     const rect = canvas.getBoundingClientRect();
-    const releaseX =
-        (e.changedTouches ? e.changedTouches[0].clientX : e.clientX) - rect.left;
-    const releaseY =
-        (e.changedTouches ? e.changedTouches[0].clientY : e.clientY) - rect.top;
+    const releaseX = (
+        e.changedTouches ? e.changedTouches[0].clientX : e.clientX
+    ) - rect.left;
 
-    // 👆 TAP BREVE → ROTAZIONE
-    if (!longPressTriggered && elapsed < INFOBOX_DELAY) {
+    const releaseY = (
+        e.changedTouches ? e.changedTouches[0].clientY : e.clientY
+    ) - rect.top;
+
+    if (interactionState === "info") {
+        // Info già mostrata → chiudi dopo un attimo
+        setTimeout(() => {
+            infoBox.style.display = "none";
+        }, 1500);
+    }
+
+    else if (interactionState === "pressing") {
+        // Tap breve → rotazione
         selectedPackage.rotate();
         draw();
     }
 
-    // LOGICA CONSEGNA
-    if (mode === "consegna") {
+    else if (interactionState === "dragging") {
 
-        // BUFFER
-        if (
-            pointInsideZone(releaseX, releaseY, BUFFER_ZONE) &&
-            !isZoneOccupied(BUFFER_ZONE, selectedPackage)
-        ) {
-            snapToZone(selectedPackage, BUFFER_ZONE);
+        // LOGICA CONSEGNA
+        if (mode === "consegna") {
+
+            if (
+                pointInsideZone(releaseX, releaseY, BUFFER_ZONE) &&
+                !isZoneOccupied(BUFFER_ZONE, selectedPackage)
+            ) {
+                snapToZone(selectedPackage, BUFFER_ZONE);
+            }
+
+            else if (
+                pointInsideZone(releaseX, releaseY, DELIVERY_ZONE) &&
+                !isZoneOccupied(DELIVERY_ZONE, selectedPackage)
+            ) {
+                snapToZone(selectedPackage, DELIVERY_ZONE);
+            }
+
+            // altrimenti resta dov'è
+            draw();
         }
-
-        // CONSEGNA
-        else if (
-            pointInsideZone(releaseX, releaseY, DELIVERY_ZONE) &&
-            !isZoneOccupied(DELIVERY_ZONE, selectedPackage)
-        ) {
-            snapToZone(selectedPackage, DELIVERY_ZONE);
-        }
-
-        // altrimenti resta dov'è (cioè nel furgone)
-        draw();
     }
 
+    // 🔒 CLEANUP FINALE (sempre)
     selectedPackage.isDragging = false;
     selectedPackage = null;
+    interactionState = "idle";
 }
 
 function pointInsideZone(x, y, zone) {
