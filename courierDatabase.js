@@ -890,7 +890,7 @@ const PACKAGE_TYPES = [
     { w: 3, h: 2, count: 3, size: "Grande"},
     { w: 2, h: 2, count: 3, size: ""},
     { w: 3, h: 1, count: 2, size: ""},
-    { w: 2, h: 1, count: 6, size: ""},
+    { w: 2, h: 1, count: 1, size: ""},
 ];
 
 const ROAD_TYPES = [0, 3, 4, 5, 6];
@@ -1234,5 +1234,6 @@ document.getElementById("deliveryList").addEventListener("click", () => {
 document.getElementById("closeDeliveryListModal").addEventListener("click", () => {
     document.getElementById("deliveryListModal").style.display = "none";
 });
+
 
 
