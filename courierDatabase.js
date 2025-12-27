@@ -124,7 +124,7 @@ const streets = [
     { name: "Via Trieste", start: [2, 8], end: [23, 9] },
     { name: "Viale Milano", start: [11, 2], end: [12, 7] },
     { name: "Viale Nazionale", start: [13, 3], end: [22, 4] },
-    { name: "Via Palermo", start: [23, 1], end: [22, 8] },
+    { name: "Via Palermo", start: [23, 1], end: [23, 8] },
     { name: "Via Prosecco", start: [23, 9], end: [23, 13] },
 
 ];
@@ -1234,6 +1234,7 @@ document.getElementById("deliveryList").addEventListener("click", () => {
 document.getElementById("closeDeliveryListModal").addEventListener("click", () => {
     document.getElementById("deliveryListModal").style.display = "none";
 });
+
 
 
 
