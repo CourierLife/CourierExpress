@@ -11,6 +11,8 @@ const FUR_COLS = 5;  // larghezza furgone
 let vanGrid = { row: 0, col: Math.floor((COLS - FUR_COLS) / 2) };
 
 let mode = "pacchi"; // modalità iniziale
+let mapOverlayMode = "streets";
+
 let loadEndTime = null;
 // Coordinate del furgone sul canvas
 const VAN_TOP = vanGrid.row;                 // 0
@@ -143,64 +145,6 @@ const streets = [
 
 ];
 
-function drawStreetNames(ctx, streets, CELL_SIZE) {
-    ctx.save();
-    ctx.font = "bold 12px Arial";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    streets.forEach(street => {
-        // rimuove "Via " o "Viale "
-        const name = street.name.replace(/^Via\s+|^Viale\s+/i, "");
-        const [r1, c1] = street.start;
-        const [r2, c2] = street.end;
-
-        const x1 = c1 * CELL_SIZE + CELL_SIZE / 2;
-        const y1 = r1 * CELL_SIZE + CELL_SIZE / 2;
-        const x2 = c2 * CELL_SIZE + CELL_SIZE / 2;
-        const y2 = r2 * CELL_SIZE + CELL_SIZE / 2;
-
-        const horizontal = Math.abs(c2 - c1) >= Math.abs(r2 - r1);
-
-        const centerX = (x1 + x2) / 2;
-        const centerY = (y1 + y2) / 2;
-
-        ctx.save();
-        ctx.translate(centerX, centerY);
-
-        if (!horizontal) ctx.rotate(-Math.PI / 2);
-
-        // calcola larghezza e altezza testo
-        const metrics = ctx.measureText(name);
-        const textWidth = metrics.width;
-        const textHeight = 14; // approssimazione per altezza del testo
-        const padding = 1; // piccolo padding attorno al testo
-        const radius = 4;  // raggio angoli arrotondati
-
-        // rettangolo bianco semitrasparente con bordi arrotondati
-        ctx.fillStyle = "rgba(255,255,255,0.5)";
-        ctx.beginPath();
-        ctx.moveTo(-textWidth / 2 - padding + radius, -textHeight / 2 - padding);
-        ctx.lineTo(textWidth / 2 + padding - radius, -textHeight / 2 - padding);
-        ctx.quadraticCurveTo(textWidth / 2 + padding, -textHeight / 2 - padding, textWidth / 2 + padding, -textHeight / 2 - padding + radius);
-        ctx.lineTo(textWidth / 2 + padding, textHeight / 2 + padding - radius);
-        ctx.quadraticCurveTo(textWidth / 2 + padding, textHeight / 2 + padding, textWidth / 2 + padding - radius, textHeight / 2 + padding);
-        ctx.lineTo(-textWidth / 2 - padding + radius, textHeight / 2 + padding);
-        ctx.quadraticCurveTo(-textWidth / 2 - padding, textHeight / 2 + padding, -textWidth / 2 - padding, textHeight / 2 + padding - radius);
-        ctx.lineTo(-textWidth / 2 - padding, -textHeight / 2 - padding + radius);
-        ctx.quadraticCurveTo(-textWidth / 2 - padding, -textHeight / 2 - padding, -textWidth / 2 - padding + radius, -textHeight / 2 - padding);
-        ctx.closePath();
-        ctx.fill();
-
-        // testo rosso pastello
-        ctx.fillStyle = "hsl(0, 70%, 60%)";
-        ctx.fillText(name, 0, 0);
-
-        ctx.restore();
-    });
-
-    ctx.restore();
-}
 
 function addCivicToStreet(row, col, civics) {
     const tile = mapData[row][col];
@@ -1472,5 +1416,6 @@ function resetGame() {
     document.getElementById('moveControls').style.display = "none";
     document.getElementById('deliveryButtonContainer').style.display = "none";
 
+    placePackages();
     draw();
 }

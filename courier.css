@@ -76,7 +76,7 @@ button {
         white-space: nowrap;
         line-height: 1;
     }
-
+#streetMode,
 #deliveryList {
     background: rgba(255,255,255,0.15);
     color: var(--white);

@@ -465,13 +465,32 @@ function checkCollisionLimit(pkg, newRow, newCol) {
     } return maxRow;
 }
 
+function toggleMapOverlay() {
+    mapOverlayMode = mapOverlayMode === "streets" ? "arrows" : "streets";
+
+    const btn = document.getElementById("streetMode");
+
+    if (mapOverlayMode === "streets") {
+        btn.innerText = "Sensi unici";
+    } else {
+        btn.innerText = "Nomi vie";
+    }
+
+    draw();
+}
+
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (mode === "mappa") {
         drawMap();
-        drawStreetNames(ctx, streets, CELL_SIZE);
+        if (mapOverlayMode === "arrows") {
+            drawArrows();
+        }
 
+        if (mapOverlayMode === "streets") {
+            drawStreetNames(ctx, streets, CELL_SIZE);
+        }
         if (showFullPath) drawVanPath(ctx); // disegna percorso se richiesto
 
         drawVan();
@@ -543,6 +562,10 @@ function allPackagesInVan() {
         );
     });
 }
+
+document.getElementById("streetMode").addEventListener("click", () => {
+    toggleMapOverlay();
+});
 
 placePackages();
 draw();
