@@ -1045,7 +1045,7 @@ function generatePackagesFromBellList(bellList) {
     /* =====================================================
        🟢 FASE 1 — 1 PACCO PER ZONA (se possibile)
     ===================================================== */
-    for (let zoneId = 3; zoneId < 4 && remainingPackages > 0; zoneId++) {
+    for (let zoneId = 0; zoneId < 4 && remainingPackages > 0; zoneId++) {
         if (zoneBuckets[zoneId].length === 0) continue;
 
         const dest = zoneBuckets[zoneId].pop();
@@ -1419,3 +1419,4 @@ function resetGame() {
     placePackages();
     draw();
 }
+
